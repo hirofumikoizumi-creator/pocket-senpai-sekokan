@@ -107,6 +107,7 @@ npm run check:public-urls
 - 年齢制限: 4+ 想定
 - サポートURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
 - プライバシーポリシーURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
+- アプリプライバシー回答: `APP_PRIVACY_ANSWERS.md` に従い「このアプリからデータを収集しない」を選択
 - 暗号化: 非該当 (`ITSAppUsesNonExemptEncryption: false`)
 - 広告SDK: 未組み込み
 - Firebase: 未組み込み
@@ -126,6 +127,7 @@ npm run check:public-urls
 
 - `assets/models/Qwen3-0.6B-Q8_0.gguf` が実モデルではない場合、相談機能は監修済みテンプレート応答へフォールバックします。
 - AdMob/Firebase は現在未使用です。将来導入する場合は、正式な App ID とプライバシー回答を更新してください。
+- Firebase用のファイルは将来拡張用で、現行実装では `firebaseEnabled = false` です。
 
 ## 直近の検証結果
 

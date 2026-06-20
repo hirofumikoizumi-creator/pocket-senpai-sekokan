@@ -7,6 +7,7 @@ const requiredFiles = [
   'eas.json',
   'store.config.json',
   'APP_STORE_METADATA.md',
+  'APP_PRIVACY_ANSWERS.md',
   'RELEASE_CHECKLIST.md',
   'SCREENSHOT_GUIDE.md',
   'PRIVACY_POLICY.md',
@@ -140,6 +141,15 @@ const metadata = fileExists('APP_STORE_METADATA.md')
 for (const phrase of ['プライバシーポリシーURL', 'サポートURL', 'App Review', 'このアプリからデータを収集しない']) {
   if (!metadata.includes(phrase)) {
     failures.push(`APP_STORE_METADATA.md is missing release phrase: ${phrase}`);
+  }
+}
+
+const privacyAnswers = fileExists('APP_PRIVACY_ANSWERS.md')
+  ? fs.readFileSync(path.join(root, 'APP_PRIVACY_ANSWERS.md'), 'utf8')
+  : '';
+for (const phrase of ['このアプリからデータを収集しない', 'AsyncStorage', 'Firebase', 'クラウドLLM']) {
+  if (!privacyAnswers.includes(phrase)) {
+    failures.push(`APP_PRIVACY_ANSWERS.md is missing privacy phrase: ${phrase}`);
   }
 }
 

@@ -86,6 +86,7 @@ npm run check:release
 
 - App Store メタデータ下書き: `APP_STORE_METADATA.md`
 - TestFlight リリース手順: `RELEASE_CHECKLIST.md`
+- App Store プライバシー回答: `APP_PRIVACY_ANSWERS.md`
 - スクリーンショット撮影ガイド: `SCREENSHOT_GUIDE.md`
 - プライバシーポリシー下書き: `PRIVACY_POLICY.md`
 - サポート案内下書き: `SUPPORT.md`
