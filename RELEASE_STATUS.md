@@ -45,6 +45,8 @@ TestFlight投入前に残っている外部作業は、App Store Connectで作�
 
 ### 1. App Store Connect アプリ作成後の `ascAppId` 設定
 
+新規アプリ作成手順は `APP_STORE_CONNECT_SETUP.md` を参照してください。
+
 App Store Connectで新規アプリを作成し、Apple IDを確認したら以下を実行します。
 
 ```bash

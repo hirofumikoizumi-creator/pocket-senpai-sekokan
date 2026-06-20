@@ -6,6 +6,7 @@ const requiredFiles = [
   'app.json',
   'eas.json',
   'store.config.json',
+  'APP_STORE_CONNECT_SETUP.md',
   'APP_STORE_METADATA.md',
   'APP_PRIVACY_ANSWERS.md',
   'RELEASE_STATUS.md',
@@ -171,6 +172,15 @@ const releaseStatus = fileExists('RELEASE_STATUS.md')
 for (const phrase of ['未完了の外部作業', 'ascAppId', 'Distribution Certificate', 'GitHub Actions CI']) {
   if (!releaseStatus.includes(phrase)) {
     failures.push(`RELEASE_STATUS.md is missing release status phrase: ${phrase}`);
+  }
+}
+
+const appStoreConnectSetup = fileExists('APP_STORE_CONNECT_SETUP.md')
+  ? fs.readFileSync(path.join(root, 'APP_STORE_CONNECT_SETUP.md'), 'utf8')
+  : '';
+for (const phrase of ['New App', 'com.gsw.pocketsenpai.sekoukanri', 'pocket-senpai-sekokan', 'set:asc-app-id']) {
+  if (!appStoreConnectSetup.includes(phrase)) {
+    failures.push(`APP_STORE_CONNECT_SETUP.md is missing setup phrase: ${phrase}`);
   }
 }
 

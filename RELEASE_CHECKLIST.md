@@ -1,6 +1,7 @@
 # TestFlight リリースチェックリスト
 
 現在の達成状況と残ブロッカーは `RELEASE_STATUS.md` も参照してください。
+App Store Connect の新規アプリ作成手順は `APP_STORE_CONNECT_SETUP.md` を参照してください。
 
 ## EAS
 

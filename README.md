@@ -95,6 +95,7 @@ npm run check:release
 ## App Store 提出資料
 
 - App Store メタデータ下書き: `APP_STORE_METADATA.md`
+- App Store Connect 新規アプリ作成: `APP_STORE_CONNECT_SETUP.md`
 - リリース状態サマリ: `RELEASE_STATUS.md`
 - TestFlight リリース手順: `RELEASE_CHECKLIST.md`
 - App Store プライバシー回答: `APP_PRIVACY_ANSWERS.md`
