@@ -16,6 +16,7 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "doctor": "npx --yes expo-doctor",
+    "check:release": "node scripts/check-release-readiness.js",
     "prebuild": "expo prebuild"
   },
   "dependencies": {

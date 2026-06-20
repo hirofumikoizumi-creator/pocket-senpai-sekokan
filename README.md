@@ -42,6 +42,7 @@ npx expo start
 npm run typecheck
 npm run lint
 npm run doctor
+npm run check:release
 ```
 
 ## オンデバイスQwen3

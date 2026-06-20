@@ -37,3 +37,6 @@ jobs:
 
       - name: Expo doctor
         run: npm run doctor
+
+      - name: Release readiness
+        run: npm run check:release

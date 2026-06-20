@@ -93,6 +93,7 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 npm run typecheck
 npm run lint
 npm run doctor
+npm run check:release
 npx eas build:inspect --platform ios --profile production --stage archive --output <temp-dir>
 ```
 
@@ -101,6 +102,7 @@ npx eas build:inspect --platform ios --profile production --stage archive --outp
 - TypeScript: 成功
 - Expo lint: 成功
 - Expo Doctor: 21/21 checks passed
+- Release readiness check: 成功。`ascAppId` は App Store Connect アプリ作成後に追加
 - EAS build inspect: 成功
 - GitHub Actions CI: `typecheck` / `lint` / `doctor` を push と PR で実行
 - EAS production build: iOS Distribution Certificate の対話確認が必要なため、Codex非対話環境では未投入
