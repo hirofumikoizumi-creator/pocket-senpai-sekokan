@@ -74,6 +74,8 @@ PowerShell で credentials 設定から build まで進める場合:
 .\scripts\testflight-release.ps1
 ```
 
+`testflight-release.ps1` は、実ビルド前にpreflight確認を実行します。確認済みで省略する場合は `-SkipPreflight`、EAS build inspectだけ省略する場合は `-SkipBuildInspect` を指定できます。
+
 TestFlight投入前の確認をまとめて実行する場合:
 
 ```powershell

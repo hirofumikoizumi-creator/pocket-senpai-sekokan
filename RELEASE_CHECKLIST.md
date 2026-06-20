@@ -28,6 +28,8 @@ PowerShell でまとめて実行する場合:
 .\scripts\testflight-release.ps1
 ```
 
+このスクリプトは実ビルド前に `.\scripts\preflight-release.ps1` を実行します。確認済みで省略する場合は `-SkipPreflight`、EAS build inspect だけ省略する場合は `-SkipBuildInspect` を指定します。
+
 実ビルド前の確認をまとめて実行する場合:
 
 ```powershell
@@ -39,6 +41,8 @@ PowerShell でまとめて実行する場合:
 ```powershell
 .\scripts\testflight-release.ps1 -Submit
 ```
+
+`-Submit` を使う場合、`eas.json` の `submit.production.ios.ascAppId` が必須です。未設定の場合はスクリプトが停止します。
 
 App Store Connect に新規アプリを作成後、Apple が発行した App ID を `eas.json` の `submit.production.ios.ascAppId` に追加してから submit します。
 

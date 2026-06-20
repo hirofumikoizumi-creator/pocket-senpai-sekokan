@@ -72,6 +72,8 @@ PowerShellでまとめて進める場合:
 .\scripts\testflight-release.ps1
 ```
 
+`testflight-release.ps1` は実ビルド前にpreflight確認を実行します。`-Submit` 指定時は `ascAppId` が未設定だと停止します。
+
 ## 最新のEAS buildブロッカー
 
 Codex非対話環境で `npx eas-cli@latest build --platform ios --profile production --non-interactive --freeze-credentials --no-wait` を実行した結果、以下で停止しています。
