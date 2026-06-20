@@ -55,9 +55,17 @@ assets/models/Qwen3-0.6B-Q8_0.gguf
 
 ## iOS / TestFlight
 
-`app.json` の Bundle ID と `eas.json` の App Store Connect 情報を、施工管理版の新規アプリに合わせて設定してください。
+`app.json` の Bundle ID と `eas.json` の App Store Connect 情報を、施工管理版の新規アプリに合わせて設定してください。Apple/EAS credentials は対話入力が必要です。
 
 ```bash
 npx eas build --platform ios --profile production
 npx eas submit --platform ios --profile production
 ```
+
+PowerShell で credentials 設定から build まで進める場合:
+
+```powershell
+.\scripts\testflight-release.ps1
+```
+
+元アプリからの同期履歴は `UPSTREAM_SYNC.md` を参照してください。

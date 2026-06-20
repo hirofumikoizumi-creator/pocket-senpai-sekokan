@@ -13,9 +13,10 @@
 このCodex実行環境では EAS の対話プロンプトに入力できないため、iOS credentials の確認だけ手元のターミナルで実施してください。
 
 ```bash
-cd <pocket-senpai-sekokan のローカルclone>
+git clone https://github.com/hirofumikoizumi-creator/pocket-senpai-sekokan.git
+cd pocket-senpai-sekokan
 npm install
-npx eas credentials --platform ios
+npx eas credentials:configure-build --platform ios --profile production
 npx eas build --platform ios --profile production
 ```
 
