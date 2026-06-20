@@ -64,6 +64,8 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 - SKU案: `pocket-senpai-sekokan`
 - カテゴリ案: Education
 - 年齢制限: 4+ 想定
+- サポートURL: `SUPPORT.md` を公開URL化して登録
+- プライバシーポリシーURL: `PRIVACY_POLICY.md` を公開URL化して登録
 - 暗号化: 非該当 (`ITSAppUsesNonExemptEncryption: false`)
 - 広告SDK: 未組み込み
 - Firebase: 未組み込み

@@ -1,7 +1,7 @@
 {
   "name": "pocket-senpai-sekokan",
   "version": "1.0.0",
-  "description": "ポケット先輩（施工管理）- 建設・土木の施工管理士を目指す若手のための学習支援アプリ",
+  "description": "ポケット先輩（施工管理）- 建設・土木の施工管理技士を目指す若手のための学習支援アプリ",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
