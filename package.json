@@ -17,6 +17,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "doctor": "npx --yes expo-doctor",
     "check:release": "node scripts/check-release-readiness.js",
+    "set:asc-app-id": "node scripts/set-asc-app-id.js",
     "metadata:lint": "npx eas-cli@latest metadata:lint --json",
     "prebuild": "expo prebuild"
   },

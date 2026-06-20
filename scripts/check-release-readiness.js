@@ -25,6 +25,7 @@ const requiredPackageScripts = [
   'build:ios:prod',
   'build:inspect:ios',
   'submit:ios',
+  'set:asc-app-id',
 ];
 
 const expected = {
@@ -99,7 +100,9 @@ if (!productionSubmit || !productionSubmit.appleId || !productionSubmit.appleTea
 }
 
 if (!productionSubmit || !productionSubmit.ascAppId) {
-  warnings.push('eas.json submit.production.ios.ascAppId is not set yet. Add it after creating the App Store Connect app.');
+  warnings.push('eas.json submit.production.ios.ascAppId is not set yet. Run `npm run set:asc-app-id -- <Apple ID>` after creating the App Store Connect app.');
+} else if (!/^\d+$/.test(String(productionSubmit.ascAppId))) {
+  failures.push('eas.json submit.production.ios.ascAppId must be a numeric App Store Connect Apple ID.');
 }
 
 const scripts = packageJson.scripts || {};

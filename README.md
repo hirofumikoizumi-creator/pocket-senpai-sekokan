@@ -72,6 +72,13 @@ PowerShell で credentials 設定から build まで進める場合:
 .\scripts\testflight-release.ps1
 ```
 
+App Store Connect の Apple ID が分かったら、submit前に以下で `eas.json` へ反映します。
+
+```bash
+npm run set:asc-app-id -- <App Store Connect Apple ID>
+npm run check:release
+```
+
 元アプリからの同期履歴は `UPSTREAM_SYNC.md` を参照してください。
 
 ## App Store 提出資料

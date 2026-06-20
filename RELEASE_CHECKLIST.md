@@ -35,7 +35,9 @@ PowerShell でまとめて実行する場合:
 App Store Connect に新規アプリを作成後、Apple が発行した App ID を `eas.json` の `submit.production.ios.ascAppId` に追加してから submit します。
 
 ```bash
-npx eas submit --platform ios --profile production
+npm run set:asc-app-id -- <App Store Connect Apple ID>
+npm run check:release
+npx eas-cli@latest submit --platform ios --profile production
 ```
 
 ## GitHub Actions からのEAS本番ビルド
@@ -46,7 +48,7 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 
 - Expo の Access Token を発行し、GitHub repository secret `EXPO_TOKEN` に登録します。
 - 初回だけ、手元のターミナルで `npx eas credentials:configure-build --platform ios --profile production` を実行し、Apple ID と証明書確認を完了します。
-- App Store Connect への自動submitを使う場合は、App Store Connectで作成したアプリの Apple ID を `eas.json` の `submit.production.ios.ascAppId` に追加します。
+- App Store Connect への自動submitを使う場合は、App Store Connectで作成したアプリの Apple ID を `npm run set:asc-app-id -- <Apple ID>` で `eas.json` に追加します。
 - `EXPO_TOKEN` が未登録の場合、workflow は EAS build の前に明示的なエラーで停止します。
 
 実行手順:
@@ -69,6 +71,8 @@ npm run metadata:lint
 App Store Connect のアプリ作成、`ascAppId` 設定、Apple認証が終わった後、必要に応じて以下で同期します。
 
 ```bash
+npm run set:asc-app-id -- <App Store Connect Apple ID>
+npm run check:release
 npx eas-cli@latest metadata:push
 ```
 
