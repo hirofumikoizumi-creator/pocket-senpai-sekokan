@@ -58,14 +58,31 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 
 この workflow は、`npm ci`、`npm run typecheck`、`npm run lint`、`npm run doctor` を通してから EAS production build を投入します。
 
+## GitHub Pages 公開URL
+
+App Store Connect に入力するサポートURLとプライバシーポリシーURLは、`docs/` 配下のHTMLを GitHub Pages で公開して使います。
+
+GitHub Pages の設定:
+
+1. GitHub repository の `Settings` を開きます。
+2. `Pages` を開きます。
+3. Source を `Deploy from a branch` にします。
+4. Branch を `main`、folder を `/docs` にします。
+5. 保存後、以下のURLにアクセスできることを確認します。
+
+```text
+https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html
+https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html
+```
+
 ## App Store Connect
 
 - Bundle ID: `com.gsw.pocketsenpai.sekoukanri`
 - SKU案: `pocket-senpai-sekokan`
 - カテゴリ案: Education
 - 年齢制限: 4+ 想定
-- サポートURL: `SUPPORT.md` を公開URL化して登録
-- プライバシーポリシーURL: `PRIVACY_POLICY.md` を公開URL化して登録
+- サポートURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
+- プライバシーポリシーURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
 - 暗号化: 非該当 (`ITSAppUsesNonExemptEncryption: false`)
 - 広告SDK: 未組み込み
 - Firebase: 未組み込み

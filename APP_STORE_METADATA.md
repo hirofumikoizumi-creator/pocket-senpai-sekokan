@@ -46,8 +46,14 @@ App Store Connect に提出する前に、以下の下書きを公開URLへ配�
 
 - プライバシーポリシー下書き: `PRIVACY_POLICY.md`
 - サポート案内下書き: `SUPPORT.md`
+- GitHub Pages 公開用HTML: `docs/privacy.html` / `docs/support.html`
 
-GitHub Pages、公式サイト、または公開リポジトリのMarkdown URLを利用できます。
+GitHub Pages を有効にした場合のURL候補:
+
+- サポートURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
+- プライバシーポリシーURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
+
+GitHub Pagesを使わない場合は、公式サイトまたは公開リポジトリのMarkdown URLを利用できます。
 
 ## プライバシー回答メモ
 
