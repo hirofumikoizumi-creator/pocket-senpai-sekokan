@@ -19,20 +19,28 @@ jobs:
     name: Build iOS production app
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: read
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           lfs: true
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
+
+      - name: Verify Expo token
+        if: ${{ env.EXPO_TOKEN == '' }}
+        run: |
+          echo "::error::GitHub repository secret EXPO_TOKEN is required to run EAS builds."
+          exit 1
 
       - name: Install dependencies
         run: npm ci
@@ -52,4 +60,6 @@ jobs:
 
       - name: Build and submit on EAS
         if: ${{ inputs.submit }}
-        run: npx eas-cli@latest build --platform ios --profile production --non-interactive --no-wait --auto-submit-with-profile production --what-to-test "${{ inputs.what_to_test }}" --message "Manual GitHub Actions production build and submit"
+        env:
+          WHAT_TO_TEST: ${{ inputs.what_to_test }}
+        run: npx eas-cli@latest build --platform ios --profile production --non-interactive --no-wait --auto-submit-with-profile production --what-to-test "$WHAT_TO_TEST" --message "Manual GitHub Actions production build and submit"

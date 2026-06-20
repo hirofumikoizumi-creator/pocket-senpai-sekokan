@@ -47,6 +47,7 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 - Expo の Access Token を発行し、GitHub repository secret `EXPO_TOKEN` に登録します。
 - 初回だけ、手元のターミナルで `npx eas credentials:configure-build --platform ios --profile production` を実行し、Apple ID と証明書確認を完了します。
 - App Store Connect への自動submitを使う場合は、App Store Connectで作成したアプリの Apple ID を `eas.json` の `submit.production.ios.ascAppId` に追加します。
+- `EXPO_TOKEN` が未登録の場合、workflow は EAS build の前に明示的なエラーで停止します。
 
 実行手順:
 
