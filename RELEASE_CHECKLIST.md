@@ -71,6 +71,7 @@ Apple認証とiOS credentials の確認が完了した後は、GitHub Actions �
 - Firebase: 未組み込み
 - クラウドLLM: 未使用
 - キャラクター資産: `assets/characters/senpai-construction.png`
+- スクリーンショット撮影メモ: `SCREENSHOT_GUIDE.md`
 
 ## TestFlight ベータ審査メモ案
 

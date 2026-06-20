@@ -7,6 +7,7 @@ const requiredFiles = [
   'eas.json',
   'APP_STORE_METADATA.md',
   'RELEASE_CHECKLIST.md',
+  'SCREENSHOT_GUIDE.md',
   'PRIVACY_POLICY.md',
   'SUPPORT.md',
   'assets/characters/senpai-construction.png',

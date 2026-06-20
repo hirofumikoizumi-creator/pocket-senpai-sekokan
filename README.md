@@ -78,5 +78,6 @@ PowerShell で credentials 設定から build まで進める場合:
 
 - App Store メタデータ下書き: `APP_STORE_METADATA.md`
 - TestFlight リリース手順: `RELEASE_CHECKLIST.md`
+- スクリーンショット撮影ガイド: `SCREENSHOT_GUIDE.md`
 - プライバシーポリシー下書き: `PRIVACY_POLICY.md`
 - サポート案内下書き: `SUPPORT.md`
