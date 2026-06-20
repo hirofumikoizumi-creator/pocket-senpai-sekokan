@@ -93,6 +93,12 @@ https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html
 https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html
 ```
 
+公開状態を確認する場合:
+
+```bash
+npm run check:public-urls
+```
+
 ## App Store Connect
 
 - Bundle ID: `com.gsw.pocketsenpai.sekoukanri`
@@ -130,6 +136,7 @@ npm run typecheck
 npm run lint
 npm run doctor
 npm run check:release
+npm run check:public-urls
 npm run metadata:lint
 npx eas build:inspect --platform ios --profile production --stage archive --output <temp-dir>
 ```
@@ -140,6 +147,7 @@ npx eas build:inspect --platform ios --profile production --stage archive --outp
 - Expo lint: 成功
 - Expo Doctor: 21/21 checks passed
 - Release readiness check: 成功。`ascAppId` は App Store Connect アプリ作成後に追加
+- Public URL check: 成功
 - EAS Metadata lint: 成功
 - EAS build inspect: 成功
 - GitHub Actions CI: `typecheck` / `lint` / `doctor` を push と PR で実行
