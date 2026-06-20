@@ -4,14 +4,14 @@
 
 ## 現在の状態
 
-ポケット先輩（施工管理）は、アプリ実装、提出資料、公開URL、メタデータ、CI、preflight確認まで整備済みです。
+ポケット先輩（施工管理）は、アプリ実装、提出資料、公開URL、プライバシー実装確認、メタデータ、CI、preflight確認まで整備済みです。
 
 TestFlight投入前に残っている外部作業は、App Store Connectで作成したアプリの Apple ID を `ascAppId` として登録することと、EAS iOS Distribution Certificate の対話確認です。
 
 ## リポジトリ
 
 - GitHub: `https://github.com/hirofumikoizumi-creator/pocket-senpai-sekokan`
-- 最新確認コミット: `c9be35a Add release preflight script`
+- 最新確認コミット（リリース実装）: `fc5e3d0 Verify no data collection implementation`
 - ローカル作業ツリー: clean
 
 ## アプリ設定
@@ -25,6 +25,7 @@ TestFlight投入前に残っている外部作業は、App Store Connectで作�
 - App Store category: Education / Productivity
 - Support URL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
 - Privacy Policy URL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
+- App Privacy: 現行実装では「このアプリからデータを収集しない」を選択
 
 ## 確認済み
 
@@ -32,12 +33,13 @@ TestFlight投入前に残っている外部作業は、App Store Connectで作�
 - `npm run build:inspect:ios`: 成功
 - `npm run check:release`: 成功
 - `npm run check:public-urls`: 成功
+- `npm run check:privacy`: 成功
 - `npm run metadata:lint`: 成功
 - `npm run typecheck`: 成功
 - `npm run lint`: 成功
 - `npm run doctor`: 成功
-- GitHub Actions CI: 成功 (`27864234409`)
-- GitHub Pages deploy: 成功 (`27864234197`)
+- GitHub Actions CI: 成功確認済み (`27865080755`)
+- GitHub Pages deploy: 成功確認済み (`27865080283`)
 
 ## 未完了の外部作業
 
@@ -73,6 +75,12 @@ PowerShellでまとめて進める場合:
 ```
 
 `testflight-release.ps1` は実ビルド前にpreflight確認を実行します。`-Submit` 指定時は `ascAppId` が未設定だと停止します。
+
+## プライバシー確認
+
+現行実装では、ログイン、Firebase、広告SDK、分析SDK、クラウドLLM送信、位置情報、カメラ、通知、トラッキング系SDKを組み込んでいません。
+
+`npm run check:privacy` で、依存関係、`app.json`、プレースホルダー実装、Firebase/広告設定ファイルが残っていないことを確認します。
 
 ## 最新のEAS buildブロッカー
 
