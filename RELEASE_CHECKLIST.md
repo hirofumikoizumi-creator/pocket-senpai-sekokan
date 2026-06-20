@@ -62,3 +62,22 @@ npx eas submit --platform ios --profile production
 
 - `assets/models/Qwen3-0.6B-Q8_0.gguf` が実モデルではない場合、相談機能は監修済みテンプレート応答へフォールバックします。
 - AdMob/Firebase は現在未使用です。将来導入する場合は、正式な App ID とプライバシー回答を更新してください。
+
+## 直近の検証結果
+
+2026-06-20 時点で以下を確認済みです。
+
+```bash
+npm exec -- tsc --noEmit -p tsconfig.json
+npm run lint
+npx expo-doctor
+npx eas build:inspect --platform ios --profile production --stage archive --output <temp-dir>
+```
+
+結果:
+
+- TypeScript: 成功
+- Expo lint: 成功
+- Expo Doctor: 21/21 checks passed
+- EAS build inspect: 成功
+- EAS production build: iOS Distribution Certificate の対話確認が必要なため、Codex非対話環境では未投入
