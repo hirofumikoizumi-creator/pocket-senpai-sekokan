@@ -1,5 +1,7 @@
 # TestFlight リリースチェックリスト
 
+現在の達成状況と残ブロッカーは `RELEASE_STATUS.md` も参照してください。
+
 ## EAS
 
 - Expo owner: `hirofumikoizumi`

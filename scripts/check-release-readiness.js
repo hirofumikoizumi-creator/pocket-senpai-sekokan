@@ -8,6 +8,7 @@ const requiredFiles = [
   'store.config.json',
   'APP_STORE_METADATA.md',
   'APP_PRIVACY_ANSWERS.md',
+  'RELEASE_STATUS.md',
   'RELEASE_CHECKLIST.md',
   'SCREENSHOT_GUIDE.md',
   'PRIVACY_POLICY.md',
@@ -160,6 +161,15 @@ const checklist = fileExists('RELEASE_CHECKLIST.md')
 for (const phrase of ['EXPO_TOKEN', 'credentials:configure-build', 'ascAppId', 'Distribution Certificate']) {
   if (!checklist.includes(phrase)) {
     failures.push(`RELEASE_CHECKLIST.md is missing release phrase: ${phrase}`);
+  }
+}
+
+const releaseStatus = fileExists('RELEASE_STATUS.md')
+  ? fs.readFileSync(path.join(root, 'RELEASE_STATUS.md'), 'utf8')
+  : '';
+for (const phrase of ['未完了の外部作業', 'ascAppId', 'Distribution Certificate', 'GitHub Actions CI']) {
+  if (!releaseStatus.includes(phrase)) {
+    failures.push(`RELEASE_STATUS.md is missing release status phrase: ${phrase}`);
   }
 }
 
