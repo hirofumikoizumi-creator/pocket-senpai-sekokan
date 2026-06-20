@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -15,6 +16,7 @@ import { Disclaimer } from '../src/components/Disclaimer';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - SPACING.lg * 3) / 2;
+const SENPAI_IMAGE = require('../assets/characters/senpai-construction.png');
 
 interface MenuCard {
   id: string;
@@ -96,12 +98,22 @@ export default function HomeScreen() {
         <Disclaimer compact />
       </View>
 
-      {/* メニューカード */}
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.cardsContainer}
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.senpaiIntro}>
+          <View style={styles.senpaiTextBlock}>
+            <Text style={styles.senpaiLabel}>施工管理のポケット先輩</Text>
+            <Text style={styles.senpaiMessage}>
+              安全・品質・工程で迷ったら、まず状況を整理して一緒に確認しよう。
+            </Text>
+          </View>
+          <Image source={SENPAI_IMAGE} style={styles.senpaiImage} resizeMode="contain" />
+        </View>
+
+        {/* メニューカード */}
         <View style={styles.cardsGrid}>
           {menuCards.map((card) => (
             <TouchableOpacity
@@ -173,6 +185,34 @@ const styles = StyleSheet.create({
   cardsContainer: {
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.xxl,
+  },
+  senpaiIntro: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.lg,
+    padding: SPACING.md,
+    marginTop: SPACING.md,
+    ...SHADOWS.md,
+  },
+  senpaiTextBlock: {
+    flex: 1,
+    paddingRight: SPACING.sm,
+  },
+  senpaiLabel: {
+    fontSize: FONT_SIZES.sm,
+    color: COLORS.primaryDark,
+    fontWeight: '700',
+    marginBottom: SPACING.xs,
+  },
+  senpaiMessage: {
+    fontSize: FONT_SIZES.md,
+    color: COLORS.text,
+    lineHeight: 21,
+  },
+  senpaiImage: {
+    width: 106,
+    height: 116,
   },
   cardsGrid: {
     flexDirection: 'row',

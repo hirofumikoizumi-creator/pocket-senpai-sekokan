@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -17,6 +18,8 @@ import { getAIResponse } from '../../src/services/aiService';
 import { ConsultationResponse } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
 import { getOnDeviceQwenStatus, OnDeviceQwenStatus } from '../../src/services/onDeviceQwen';
+
+const SENPAI_IMAGE = require('../../assets/characters/senpai-construction.png');
 
 interface Message {
   id: string;
@@ -204,7 +207,7 @@ export default function ConsultationScreen() {
           {messages.length === 0 && (
             <View style={styles.welcomeContainer}>
               <View style={styles.welcomeIconContainer}>
-                <MaterialCommunityIcons name="chat-processing-outline" size={40} color={COLORS.primary} />
+                <Image source={SENPAI_IMAGE} style={styles.welcomeSenpaiImage} resizeMode="contain" />
               </View>
               <Text style={styles.welcomeTitle}>先輩に相談してみよう</Text>
               <Text style={styles.welcomeSubtitle}>
@@ -240,7 +243,7 @@ export default function ConsultationScreen() {
               ) : (
                 <View style={styles.aiMessageContainer}>
                   <View style={styles.aiAvatar}>
-                    <MaterialCommunityIcons name="account-heart" size={20} color={COLORS.primary} />
+                    <Image source={SENPAI_IMAGE} style={styles.aiAvatarImage} resizeMode="cover" />
                   </View>
                   <View style={styles.aiBubble}>
                     {message.response && renderAIResponse(message.response)}
@@ -254,7 +257,7 @@ export default function ConsultationScreen() {
           {isLoading && (
             <View style={styles.loadingContainer}>
               <View style={styles.aiAvatar}>
-                <MaterialCommunityIcons name="account-heart" size={20} color={COLORS.primary} />
+                <Image source={SENPAI_IMAGE} style={styles.aiAvatarImage} resizeMode="cover" />
               </View>
               <View style={styles.loadingBubble}>
                 <ActivityIndicator size="small" color={COLORS.primary} />
@@ -328,13 +331,18 @@ const styles = StyleSheet.create({
     paddingTop: SPACING.xl,
   },
   welcomeIconContainer: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 118,
+    height: 118,
+    borderRadius: 59,
     backgroundColor: COLORS.surfaceLight,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: SPACING.md,
+    overflow: 'hidden',
+  },
+  welcomeSenpaiImage: {
+    width: 118,
+    height: 118,
   },
   welcomeTitle: {
     fontSize: FONT_SIZES.xl,
@@ -398,14 +406,21 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   aiAvatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: COLORS.surfaceLight,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: SPACING.sm,
     marginTop: 4,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  aiAvatarImage: {
+    width: 38,
+    height: 38,
   },
   aiBubble: {
     flex: 1,
