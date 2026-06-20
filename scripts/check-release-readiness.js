@@ -5,6 +5,7 @@ const root = path.resolve(__dirname, '..');
 const requiredFiles = [
   'app.json',
   'eas.json',
+  'store.config.json',
   'APP_STORE_METADATA.md',
   'RELEASE_CHECKLIST.md',
   'SCREENSHOT_GUIDE.md',
@@ -68,6 +69,7 @@ for (const file of requiredFiles) {
 const appJson = readJson('app.json');
 const easJson = readJson('eas.json');
 const packageJson = readJson('package.json');
+const storeConfig = readJson('store.config.json');
 
 const expo = appJson.expo || {};
 assertEqual('expo.name', expo.name, expected.appName);
@@ -109,6 +111,23 @@ for (const script of requiredPackageScripts) {
 
 if (!scripts['build:ios:prod'] || !scripts['build:ios:prod'].includes('eas-cli@latest')) {
   failures.push('build:ios:prod should use eas-cli@latest.');
+}
+
+if (!scripts['metadata:lint']) {
+  failures.push('Missing package script: metadata:lint');
+}
+
+if (storeConfig.configVersion !== 0) {
+  failures.push('store.config.json must use configVersion 0.');
+}
+
+const appleInfoJa = storeConfig.apple && storeConfig.apple.info && storeConfig.apple.info.ja;
+if (!appleInfoJa) {
+  failures.push('store.config.json must include apple.info.ja.');
+} else {
+  assertEqual('store.config.json apple.info.ja.title', appleInfoJa.title, expected.appName);
+  assertEqual('store.config.json apple.info.ja.supportUrl', appleInfoJa.supportUrl, 'https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html');
+  assertEqual('store.config.json apple.info.ja.privacyPolicyUrl', appleInfoJa.privacyPolicyUrl, 'https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html');
 }
 
 const metadata = fileExists('APP_STORE_METADATA.md')

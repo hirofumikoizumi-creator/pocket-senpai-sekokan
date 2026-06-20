@@ -1,0 +1,54 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "version": "1.0.0",
+    "copyright": "2026 Hirofumi Koizumi",
+    "categories": [
+      "EDUCATION",
+      "PRODUCTIVITY"
+    ],
+    "info": {
+      "ja": {
+        "title": "ポケット先輩（施工管理）",
+        "subtitle": "建設・土木の現場学習",
+        "description": "ポケット先輩（施工管理）は、建設・土木の施工管理を学ぶ新人・若手向けの教育支援アプリです。\n\n安全管理、品質管理、工程管理、施工計画、関係者調整など、現場でつまずきやすいポイントを、短いマニュアル、チェックリスト、会話例、ミニクイズで確認できます。\n\nホーム画面と相談画面には、2頭身の施工管理先輩キャラクターが登場します。堅くなりがちな現場学習を、少し親しみやすく、続けやすい形でサポートします。\n\n主な機能:\n\n- 先輩相談: 監修済みテンプレートで、困りごとの整理をサポート\n- 先輩キャラクター: ホームと相談画面で、現場確認の入口を親しみやすく案内\n- 現場トーク集: 職長、上長、発注者へ報告・確認するときの言い方を練習\n- 業務別マニュアル: 安全、品質、工程、施工計画、関係者調整の基本を確認\n- チェックリスト: 朝礼、KY、写真管理、工程調整の抜け漏れを確認\n- ミニ学習クイズ: 施工管理の基本を短時間で復習\n\n本アプリは教育・学習支援を目的とした参考情報アプリです。法令適合、構造安全、施工可否、労働安全、災害・事故対応などの判断を代替するものではありません。実務では法令、設計図書、仕様書、元請・発注者・所属会社のルール、有資格者・監督者の指示に従ってください。",
+        "keywords": [
+          "施工管理",
+          "土木",
+          "建設",
+          "安全管理",
+          "品質管理",
+          "工程管理",
+          "KY",
+          "現場",
+          "施工管理技士",
+          "新人教育"
+        ],
+        "releaseNotes": "初回TestFlightビルドです。先輩相談、現場トーク、業務別マニュアル、チェックリスト、ミニ学習クイズを確認してください。",
+        "promoText": "2頭身の施工管理先輩キャラクターと一緒に、安全管理、品質管理、工程管理、書類整理、報告の型を短く確認できます。",
+        "supportUrl": "https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html",
+        "privacyPolicyUrl": "https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html"
+      }
+    },
+    "advisory": {
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "gambling": false,
+      "unrestrictedWebAccess": false,
+      "kidsAgeBand": null,
+      "ageRatingOverride": "NONE",
+      "koreaAgeRatingOverride": "NONE",
+      "lootBox": false
+    }
+  }
+}

@@ -40,3 +40,6 @@ jobs:
 
       - name: Release readiness
         run: npm run check:release
+
+      - name: Store metadata lint
+        run: npm run metadata:lint
