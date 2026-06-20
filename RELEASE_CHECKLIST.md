@@ -38,6 +38,25 @@ App Store Connect に新規アプリを作成後、Apple が発行した App ID 
 npx eas submit --platform ios --profile production
 ```
 
+## GitHub Actions からのEAS本番ビルド
+
+Apple認証とiOS credentials の確認が完了した後は、GitHub Actions の `EAS iOS Production Build` workflow から本番ビルドを手動起動できます。
+
+事前準備:
+
+- Expo の Access Token を発行し、GitHub repository secret `EXPO_TOKEN` に登録します。
+- 初回だけ、手元のターミナルで `npx eas credentials:configure-build --platform ios --profile production` を実行し、Apple ID と証明書確認を完了します。
+- App Store Connect への自動submitを使う場合は、App Store Connectで作成したアプリの Apple ID を `eas.json` の `submit.production.ios.ascAppId` に追加します。
+
+実行手順:
+
+1. GitHub の `Actions` タブを開きます。
+2. `EAS iOS Production Build` を選択します。
+3. `Run workflow` を押します。
+4. TestFlightへ続けて送る場合は `submit` を有効にし、`what_to_test` を確認して実行します。
+
+この workflow は、`npm ci`、`npm run typecheck`、`npm run lint`、`npm run doctor` を通してから EAS production build を投入します。
+
 ## App Store Connect
 
 - Bundle ID: `com.gsw.pocketsenpai.sekoukanri`
