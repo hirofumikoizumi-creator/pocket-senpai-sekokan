@@ -39,7 +39,9 @@
 ```bash
 npm install
 npx expo start
-npx tsc --noEmit
+npm run typecheck
+npm run lint
+npm run doctor
 ```
 
 ## オンデバイスQwen3

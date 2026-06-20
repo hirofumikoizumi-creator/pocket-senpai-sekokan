@@ -68,9 +68,9 @@ npx eas submit --platform ios --profile production
 2026-06-20 時点で以下を確認済みです。
 
 ```bash
-npm exec -- tsc --noEmit -p tsconfig.json
+npm run typecheck
 npm run lint
-npx expo-doctor
+npm run doctor
 npx eas build:inspect --platform ios --profile production --stage archive --output <temp-dir>
 ```
 
@@ -80,4 +80,5 @@ npx eas build:inspect --platform ios --profile production --stage archive --outp
 - Expo lint: 成功
 - Expo Doctor: 21/21 checks passed
 - EAS build inspect: 成功
+- GitHub Actions CI: `typecheck` / `lint` / `doctor` を push と PR で実行
 - EAS production build: iOS Distribution Certificate の対話確認が必要なため、Codex非対話環境では未投入

@@ -11,8 +11,11 @@
     "build:ios:dev": "eas build --platform ios --profile development",
     "build:ios:preview": "eas build --platform ios --profile preview",
     "build:ios:prod": "eas build --platform ios --profile production",
+    "build:inspect:ios": "eas build:inspect --platform ios --profile production --stage archive --output ./dist/eas-inspect-ios",
     "submit:ios": "eas submit --platform ios",
     "lint": "expo lint",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "doctor": "npx --yes expo-doctor",
     "prebuild": "expo prebuild"
   },
   "dependencies": {
