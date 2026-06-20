@@ -29,6 +29,7 @@ const requiredPackageScripts = [
   'submit:ios',
   'preflight:release',
   'check:public-urls',
+  'check:privacy',
   'set:asc-app-id',
 ];
 

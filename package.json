@@ -19,6 +19,7 @@
     "doctor": "npx --yes expo-doctor",
     "check:release": "node scripts/check-release-readiness.js",
     "check:public-urls": "node scripts/check-public-urls.js",
+    "check:privacy": "node scripts/check-privacy-implementation.js",
     "set:asc-app-id": "node scripts/set-asc-app-id.js",
     "metadata:lint": "npx eas-cli@latest metadata:lint --json",
     "prebuild": "expo prebuild"

@@ -44,6 +44,7 @@ npm run lint
 npm run doctor
 npm run check:release
 npm run check:public-urls
+npm run check:privacy
 npm run preflight:release
 ```
 

@@ -139,7 +139,7 @@ npm run check:public-urls
 
 - `assets/models/Qwen3-0.6B-Q8_0.gguf` が実モデルではない場合、相談機能は監修済みテンプレート応答へフォールバックします。
 - AdMob/Firebase は現在未使用です。将来導入する場合は、正式な App ID とプライバシー回答を更新してください。
-- Firebase用のファイルは将来拡張用で、現行実装では `firebaseEnabled = false` です。
+- Firebase/広告SDKのプレースホルダー実装は削除済みです。将来導入する場合は、プライバシー回答と `npm run check:privacy` の条件を更新してください。
 
 ## 直近の検証結果
 
@@ -151,6 +151,7 @@ npm run lint
 npm run doctor
 npm run check:release
 npm run check:public-urls
+npm run check:privacy
 npm run metadata:lint
 npm run preflight:release
 npx eas-cli@latest build:inspect --platform ios --profile production --stage archive --output ./dist/eas-inspect-ios --force
@@ -163,6 +164,7 @@ npx eas-cli@latest build:inspect --platform ios --profile production --stage arc
 - Expo Doctor: 21/21 checks passed
 - Release readiness check: 成功。`ascAppId` は App Store Connect アプリ作成後に追加
 - Public URL check: 成功
+- Privacy implementation check: 成功
 - EAS Metadata lint: 成功
 - Preflight release script: 成功
 - EAS build inspect: 成功

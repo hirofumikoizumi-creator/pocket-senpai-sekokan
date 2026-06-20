@@ -29,6 +29,7 @@ Run-Step "Lint" { npm run lint }
 Run-Step "Expo Doctor" { npm run doctor }
 Run-Step "Release readiness" { npm run check:release }
 Run-Step "Public URLs" { npm run check:public-urls }
+Run-Step "Privacy implementation" { npm run check:privacy }
 Run-Step "EAS Metadata lint" { npm run metadata:lint }
 
 if (-not $SkipBuildInspect) {
