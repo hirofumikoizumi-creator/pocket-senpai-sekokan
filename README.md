@@ -44,6 +44,7 @@ npm run lint
 npm run doctor
 npm run check:release
 npm run check:public-urls
+npm run preflight:release
 ```
 
 ## オンデバイスQwen3
@@ -71,6 +72,12 @@ PowerShell で credentials 設定から build まで進める場合:
 
 ```powershell
 .\scripts\testflight-release.ps1
+```
+
+TestFlight投入前の確認をまとめて実行する場合:
+
+```powershell
+.\scripts\preflight-release.ps1
 ```
 
 App Store Connect の Apple ID が分かったら、submit前に以下で `eas.json` へ反映します。

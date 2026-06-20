@@ -26,6 +26,7 @@ const requiredPackageScripts = [
   'build:ios:prod',
   'build:inspect:ios',
   'submit:ios',
+  'preflight:release',
   'check:public-urls',
   'set:asc-app-id',
 ];
