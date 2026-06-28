@@ -27,7 +27,8 @@
     "production": {
       "ios": {
         "appleId": "Hirofumi.koizumi@gmail.com",
-        "appleTeamId": "2GKZ33FAB9"
+        "appleTeamId": "2GKZ33FAB9",
+        "ascAppId": "6785146846"
       }
     }
   }
