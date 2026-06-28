@@ -12,6 +12,12 @@ import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/u
 import { getQuizCategories, getQuizzesByCategory } from '../../src/data/quizzes';
 import { Quiz } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
+import { FREE_PLAN_LIMITS } from '../../src/constants/plans';
+import { PremiumPrompt } from '../../src/components/PremiumPrompt';
+import { useDailyLimit } from '../../src/hooks/useDailyLimit';
+import { useSubscription } from '../../src/hooks/useSubscription';
+import { AdBanner } from '../../src/components/AdBanner';
+import { showRewardedAd } from '../../src/services/adService';
 
 type QuizState = 'category' | 'playing' | 'result';
 
@@ -23,10 +29,13 @@ export default function QuizScreen() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
+  const { isPremium } = useSubscription();
+  const quizLimit = useDailyLimit('@pocket_senpai_daily_quiz', FREE_PLAN_LIMITS.dailyQuizQuestions, isPremium);
 
   const categories = getQuizCategories();
 
   const startQuiz = (category: string) => {
+    if (!quizLimit.canUse) return;
     const quizzes = getQuizzesByCategory(category);
     setSelectedCategory(category);
     setCurrentQuizzes(quizzes);
@@ -38,9 +47,10 @@ export default function QuizScreen() {
   };
 
   const handleAnswer = (index: number) => {
-    if (selectedAnswer !== null) return;
+    if (selectedAnswer !== null || !quizLimit.canUse) return;
     setSelectedAnswer(index);
     setShowExplanation(true);
+    quizLimit.increment();
     if (index === currentQuizzes[currentIndex].correctIndex) {
       setScore(prev => prev + 1);
     }
@@ -66,6 +76,10 @@ export default function QuizScreen() {
     setShowExplanation(false);
   };
 
+  const handleRewardAd = async () => {
+    await showRewardedAd();
+  };
+
   const categoryColors: Record<string, string> = {
     '安全ルール': '#F6AD55',
     '品質管理': '#45B7D1',
@@ -82,14 +96,23 @@ export default function QuizScreen() {
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
           <Disclaimer />
           <Text style={styles.headerText}>カテゴリを選んでクイズに挑戦しよう</Text>
+          {!isPremium && (
+            <Text style={styles.limitText}>
+              本日の無料クイズ: {quizLimit.used} / {quizLimit.limit}問
+            </Text>
+          )}
+          {!quizLimit.canUse && (
+            <PremiumPrompt title="本日の無料クイズは終了しました" message="プレミアムではミニ学習クイズを1日の制限なく利用できます。" />
+          )}
           {categories.map((category) => {
             const count = getQuizzesByCategory(category).length;
             const color = categoryColors[category] || COLORS.primary;
             return (
               <TouchableOpacity
                 key={category}
-                style={styles.categoryCard}
+                style={[styles.categoryCard, !quizLimit.canUse && styles.disabledCard]}
                 onPress={() => startQuiz(category)}
+                disabled={!quizLimit.canUse}
                 activeOpacity={0.7}
               >
                 <View style={[styles.categoryIcon, { backgroundColor: color + '20' }]}>
@@ -116,6 +139,11 @@ export default function QuizScreen() {
         <Stack.Screen options={{ title: selectedCategory, headerBackTitle: '戻る' }} />
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
           <Disclaimer />
+          {!isPremium && (
+            <Text style={styles.limitText}>
+              本日の無料クイズ: {quizLimit.used} / {quizLimit.limit}問
+            </Text>
+          )}
           {/* プログレス */}
           <View style={styles.progressContainer}>
             <Text style={styles.progressLabel}>
@@ -225,12 +253,14 @@ export default function QuizScreen() {
           </Text>
         </View>
 
-        {/* リワード広告スペース */}
-        <View style={styles.rewardAdSpace}>
-          <MaterialCommunityIcons name="play-circle-outline" size={24} color={COLORS.primary} />
-          <Text style={styles.rewardAdText}>動画を見て追加解説を見る</Text>
-          <Text style={styles.rewardAdSubtext}>（広告スペース）</Text>
-        </View>
+        {!isPremium && (
+          <TouchableOpacity style={styles.rewardAdSpace} onPress={handleRewardAd} activeOpacity={0.75}>
+            <MaterialCommunityIcons name="play-circle-outline" size={24} color={COLORS.primary} />
+            <Text style={styles.rewardAdText}>動画を見て追加解説を見る</Text>
+          </TouchableOpacity>
+        )}
+
+        <AdBanner style={styles.bannerAdSpace} />
 
         <TouchableOpacity style={styles.retryButton} onPress={() => startQuiz(selectedCategory)}>
           <MaterialCommunityIcons name="refresh" size={18} color={COLORS.primary} />
@@ -259,6 +289,12 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginBottom: SPACING.md,
   },
+  limitText: {
+    fontSize: FONT_SIZES.xs,
+    color: COLORS.textSecondary,
+    textAlign: 'right',
+    marginBottom: SPACING.sm,
+  },
   categoryCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -267,6 +303,9 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
     ...SHADOWS.sm,
+  },
+  disabledCard: {
+    opacity: 0.55,
   },
   categoryIcon: {
     width: 44,
@@ -450,16 +489,16 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     borderStyle: 'dashed',
   },
+  bannerAdSpace: {
+    height: 50,
+    marginTop: SPACING.md,
+    width: '100%',
+  },
   rewardAdText: {
     fontSize: FONT_SIZES.md,
     fontWeight: '500',
     color: COLORS.primary,
     marginTop: SPACING.sm,
-  },
-  rewardAdSubtext: {
-    fontSize: FONT_SIZES.xs,
-    color: COLORS.textLight,
-    marginTop: SPACING.xs,
   },
   retryButton: {
     flexDirection: 'row',

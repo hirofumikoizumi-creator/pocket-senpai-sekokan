@@ -142,7 +142,7 @@ if (!appleInfoJa) {
 const metadata = fileExists('APP_STORE_METADATA.md')
   ? fs.readFileSync(path.join(root, 'APP_STORE_METADATA.md'), 'utf8')
   : '';
-for (const phrase of ['プライバシーポリシーURL', 'サポートURL', 'App Review', 'このアプリからデータを収集しない']) {
+for (const phrase of ['プライバシーポリシーURL', 'サポートURL', 'App Review', 'RevenueCat']) {
   if (!metadata.includes(phrase)) {
     failures.push(`APP_STORE_METADATA.md is missing release phrase: ${phrase}`);
   }
@@ -151,7 +151,7 @@ for (const phrase of ['プライバシーポリシーURL', 'サポートURL', 'A
 const privacyAnswers = fileExists('APP_PRIVACY_ANSWERS.md')
   ? fs.readFileSync(path.join(root, 'APP_PRIVACY_ANSWERS.md'), 'utf8')
   : '';
-for (const phrase of ['このアプリからデータを収集しない', 'AsyncStorage', 'Firebase', 'クラウドLLM']) {
+for (const phrase of ['RevenueCat', 'AdMob', '購入情報', 'AsyncStorage', 'Firebase', 'クラウドLLM']) {
   if (!privacyAnswers.includes(phrase)) {
     failures.push(`APP_PRIVACY_ANSWERS.md is missing privacy phrase: ${phrase}`);
   }

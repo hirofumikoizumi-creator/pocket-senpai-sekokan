@@ -18,6 +18,10 @@ import { getAIResponse } from '../../src/services/aiService';
 import { ConsultationResponse } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
 import { getOnDeviceQwenStatus, OnDeviceQwenStatus } from '../../src/services/onDeviceQwen';
+import { FREE_PLAN_LIMITS } from '../../src/constants/plans';
+import { PremiumPrompt } from '../../src/components/PremiumPrompt';
+import { useDailyLimit } from '../../src/hooks/useDailyLimit';
+import { useSubscription } from '../../src/hooks/useSubscription';
 
 const SENPAI_IMAGE = require('../../assets/characters/senpai-construction.png');
 
@@ -45,6 +49,8 @@ export default function ConsultationScreen() {
   const [qwenStatus, setQwenStatus] = useState<OnDeviceQwenStatus>('loading');
   const scrollViewRef = useRef<ScrollView>(null);
   const messageIdRef = useRef(0);
+  const { isPremium } = useSubscription();
+  const chatLimit = useDailyLimit('@pocket_senpai_daily_chat', FREE_PLAN_LIMITS.dailyChatMessages, isPremium);
 
   useEffect(() => {
     let mounted = true;
@@ -59,6 +65,7 @@ export default function ConsultationScreen() {
   const handleSend = async (text?: string) => {
     const query = text || inputText.trim();
     if (!query || isLoading) return;
+    if (!chatLimit.canUse) return;
     const nextMessageId = () => {
       messageIdRef.current += 1;
       return messageIdRef.current.toString();
@@ -77,6 +84,7 @@ export default function ConsultationScreen() {
 
     try {
       const response = await getAIResponse(query);
+      await chatLimit.increment();
       const aiMessage: Message = {
         id: nextMessageId(),
         type: 'ai',
@@ -203,6 +211,14 @@ export default function ConsultationScreen() {
                 : 'Qwen3未読込のため、監修済みテンプレートで安全に応答します'}
             </Text>
           </View>
+          {!isPremium && (
+            <Text style={styles.limitText}>
+              本日の無料相談: {chatLimit.used} / {chatLimit.limit}回
+            </Text>
+          )}
+          {!chatLimit.canUse && (
+            <PremiumPrompt title="本日の無料相談は終了しました" message="プレミアムでは先輩相談を回数制限なく利用できます。" />
+          )}
           {/* 初期表示 */}
           {messages.length === 0 && (
             <View style={styles.welcomeContainer}>
@@ -220,8 +236,9 @@ export default function ConsultationScreen() {
                 {suggestedQuestions.map((question, index) => (
                   <TouchableOpacity
                     key={index}
-                    style={styles.suggestionChip}
+                    style={[styles.suggestionChip, !chatLimit.canUse && styles.disabledChip]}
                     onPress={() => handleSend(question)}
+                    disabled={!chatLimit.canUse}
                   >
                     <Text style={styles.suggestionText}>{question}</Text>
                     <MaterialCommunityIcons name="chevron-right" size={16} color={COLORS.textSecondary} />
@@ -282,12 +299,12 @@ export default function ConsultationScreen() {
             <TouchableOpacity
               style={[styles.sendButton, !inputText.trim() && styles.sendButtonDisabled]}
               onPress={() => handleSend()}
-              disabled={!inputText.trim() || isLoading}
+              disabled={!inputText.trim() || isLoading || !chatLimit.canUse}
             >
               <MaterialCommunityIcons
                 name="send"
                 size={20}
-                color={inputText.trim() ? COLORS.white : COLORS.textLight}
+                color={inputText.trim() && chatLimit.canUse ? COLORS.white : COLORS.textLight}
               />
             </TouchableOpacity>
           </View>
@@ -325,6 +342,12 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontSize: FONT_SIZES.xs,
     lineHeight: 16,
+  },
+  limitText: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZES.xs,
+    textAlign: 'right',
+    marginBottom: SPACING.sm,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -376,6 +399,9 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     marginBottom: SPACING.sm,
     ...SHADOWS.sm,
+  },
+  disabledChip: {
+    opacity: 0.55,
   },
   suggestionText: {
     fontSize: FONT_SIZES.md,

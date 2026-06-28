@@ -33,6 +33,7 @@
 - チェックリスト
 - ミニ学習クイズ
 - お気に入り
+- 月額プレミアムプラン
 
 ## 開発
 
@@ -47,6 +48,20 @@ npm run check:public-urls
 npm run check:privacy
 npm run preflight:release
 ```
+
+## 月額プラン
+
+- Product ID: `pocket_senpai_sekokan_monthly`
+- RevenueCat Offering: `default`
+- RevenueCat Entitlement: `premium`
+- 価格表示: 月額500円
+- EAS 環境変数: `REVENUECAT_IOS_API_KEY`, `REVENUECAT_ANDROID_API_KEY`
+- AdMob iOS App ID: `ca-app-pub-5840457424714744~7487827529`
+- AdMob banner: `ca-app-pub-5840457424714744/5895122794`
+- AdMob interstitial: `ca-app-pub-5840457424714744/4861664185`
+- AdMob rewarded: `ca-app-pub-5840457424714744/6250767477`
+
+無料プランでは先輩相談が1日5回、クイズが1日5問、お気に入りが10件までで、広告が表示されます。プレミアムではこれらの制限が解除され、広告が非表示になります。
 
 ## オンデバイスQwen3
 

@@ -17,7 +17,6 @@ const blockedPackages = [
   '@react-native-firebase/auth',
   '@react-native-firebase/firestore',
   '@react-native-firebase/messaging',
-  'react-native-google-mobile-ads',
   'expo-ads-admob',
   'expo-firebase-analytics',
   'expo-location',
@@ -31,8 +30,6 @@ const blockedPackages = [
 
 const blockedFiles = [
   'src/services/firebase.ts',
-  'src/services/adService.ts',
-  'src/components/AdBanner.tsx',
   'GoogleService-Info.plist',
   'google-services.json',
 ];
@@ -83,4 +80,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log('Privacy implementation check passed.');
+console.log('Privacy implementation check passed. RevenueCat purchase information and AdMob advertising data must be declared in App Store Connect.');

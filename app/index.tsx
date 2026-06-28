@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../src/utils/theme';
 import { Disclaimer } from '../src/components/Disclaimer';
+import { AdBanner } from '../src/components/AdBanner';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - SPACING.lg * 3) / 2;
@@ -76,6 +77,14 @@ const menuCards: MenuCard[] = [
     route: '/favorites',
     color: '#DDA0DD',
   },
+  {
+    id: '7',
+    title: 'プレミアム',
+    subtitle: '月額プラン',
+    icon: 'crown-outline',
+    route: '/premium',
+    color: '#F6AD55',
+  },
 ];
 
 export default function HomeScreen() {
@@ -135,10 +144,7 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        {/* 広告スペース（バナー広告用） */}
-        <View style={styles.adBanner}>
-          <Text style={styles.adText}>広告スペース</Text>
-        </View>
+        <AdBanner style={styles.adBanner} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -248,17 +254,6 @@ const styles = StyleSheet.create({
   },
   adBanner: {
     height: 50,
-    backgroundColor: COLORS.surfaceLight,
-    borderRadius: BORDER_RADIUS.sm,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: SPACING.md,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderStyle: 'dashed',
-  },
-  adText: {
-    fontSize: FONT_SIZES.xs,
-    color: COLORS.textLight,
   },
 });

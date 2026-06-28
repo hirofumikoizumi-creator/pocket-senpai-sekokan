@@ -120,7 +120,7 @@ npm run check:public-urls
 - 年齢制限: 4+ 想定
 - サポートURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
 - プライバシーポリシーURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
-- アプリプライバシー回答: `APP_PRIVACY_ANSWERS.md` に従い「このアプリからデータを収集しない」を選択
+- アプリプライバシー回答: `APP_PRIVACY_ANSWERS.md` に従い RevenueCat の「購入情報」と AdMob の広告関連データを選択
 - 暗号化: 非該当 (`ITSAppUsesNonExemptEncryption: false`)
 - 広告SDK: 未組み込み
 - Firebase: 未組み込み

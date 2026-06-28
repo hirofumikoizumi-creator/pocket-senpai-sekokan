@@ -10,6 +10,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/utils/theme';
 import { talkScripts } from '../../src/data/talks';
 import { Disclaimer } from '../../src/components/Disclaimer';
+import { FavoriteButton } from '../../src/components/FavoriteButton';
+import { AdBanner } from '../../src/components/AdBanner';
 
 export default function TalkDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -40,6 +42,14 @@ export default function TalkDetailScreen() {
             <MaterialCommunityIcons name="information-outline" size={14} color={COLORS.primary} />
             <Text style={styles.situationText}>{talk.situation}</Text>
           </View>
+          <FavoriteButton
+            item={{
+              id: talk.id,
+              type: 'talk',
+              title: talk.title,
+              category: talk.category,
+            }}
+          />
         </View>
 
         {/* 会話 */}
@@ -78,10 +88,7 @@ export default function TalkDetailScreen() {
           ))}
         </View>
 
-        {/* 広告スペース */}
-        <View style={styles.adSpace}>
-          <Text style={styles.adText}>広告スペース</Text>
-        </View>
+        <AdBanner style={styles.adSpace} />
 
         <Disclaimer compact />
       </ScrollView>
@@ -113,6 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.surfaceLight,
     borderRadius: BORDER_RADIUS.sm,
     padding: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   situationText: {
     fontSize: FONT_SIZES.sm,
@@ -176,17 +184,6 @@ const styles = StyleSheet.create({
   },
   adSpace: {
     height: 50,
-    backgroundColor: COLORS.surfaceLight,
-    borderRadius: BORDER_RADIUS.sm,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginVertical: SPACING.md,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderStyle: 'dashed',
-  },
-  adText: {
-    fontSize: FONT_SIZES.xs,
-    color: COLORS.textLight,
   },
 });

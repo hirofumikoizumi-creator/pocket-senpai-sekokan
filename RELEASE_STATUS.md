@@ -25,7 +25,7 @@ TestFlight投入前に残っている外部作業は、App Store Connectで作�
 - App Store category: Education / Productivity
 - Support URL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
 - Privacy Policy URL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
-- App Privacy: 現行実装では「このアプリからデータを収集しない」を選択
+- App Privacy: RevenueCat の購入情報と AdMob の広告関連データを選択
 
 ## 確認済み
 

@@ -10,6 +10,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/utils/theme';
 import { manuals } from '../../src/data/manuals';
 import { Disclaimer } from '../../src/components/Disclaimer';
+import { FavoriteButton } from '../../src/components/FavoriteButton';
+import { InlineAd } from '../../src/components/AdBanner';
 
 export default function ManualDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -36,9 +38,17 @@ export default function ManualDetailScreen() {
         {/* タイトル */}
         <Text style={styles.title}>{manual.title}</Text>
         <Text style={styles.overview}>{manual.overview}</Text>
+        <FavoriteButton
+          item={{
+            id: manual.id,
+            type: 'manual',
+            title: manual.title,
+            category: manual.category,
+          }}
+        />
 
         {/* 手順 */}
-        <View style={styles.section}>
+        <View style={[styles.section, styles.firstSection]}>
           <View style={styles.sectionHeader}>
             <MaterialCommunityIcons name="format-list-numbered" size={18} color={COLORS.primary} />
             <Text style={styles.sectionTitle}>手順</Text>
@@ -56,10 +66,7 @@ export default function ManualDetailScreen() {
           ))}
         </View>
 
-        {/* 広告スペース（インライン） */}
-        <View style={styles.adSpace}>
-          <Text style={styles.adText}>広告スペース</Text>
-        </View>
+        <InlineAd style={styles.adSpace} />
 
         {/* ポイント */}
         <View style={styles.section}>
@@ -118,6 +125,9 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: SPACING.lg,
+  },
+  firstSection: {
+    marginTop: SPACING.lg,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -195,18 +205,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   adSpace: {
-    height: 50,
-    backgroundColor: COLORS.surfaceLight,
-    borderRadius: BORDER_RADIUS.sm,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginVertical: SPACING.md,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    borderStyle: 'dashed',
-  },
-  adText: {
-    fontSize: FONT_SIZES.xs,
-    color: COLORS.textLight,
   },
 });
