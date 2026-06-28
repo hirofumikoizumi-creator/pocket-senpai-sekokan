@@ -29,7 +29,7 @@ export function buildSafetyFallbackResponse(query: string): ConsultationResponse
       'この内容は安全・法令・施工可否などの重要判断に関わる可能性があるため、本アプリでは判断を行いません。学習用の一般的な確認事項として整理してください。',
     fieldAction:
       '1. 現場を止める必要があるか監督者へ確認する  2. 事実、場所、時間、関係者、写真・記録を整理する  3. 設計図書・仕様書・施工計画書・KY記録を確認する  4. 緊急性がある場合は現場ルールに沿って直ちに報告する',
-    patientTalk:
+    fieldTalk:
       '「安全と品質に関わる内容のため、現場責任者・監督者と確認してからご案内します。」',
     caution: SAFETY_NOTICE,
     senpaiMessage:
@@ -48,7 +48,7 @@ export function buildNoMatchResponse(): ConsultationResponse {
       '監修済みデータ内にぴったり一致する素材が見つかりませんでした。一般的な学習の整理として、状況・困っている点・確認先を分けて考えてみましょう。',
     fieldAction:
       '1. 何に困っているかを短く書き出す  2. 安全・品質・工程・書類・関係者調整のどれかを分ける  3. 判断が必要な部分は監督者・先輩・施工計画書・現場ルールへ確認する',
-    patientTalk: '「確認してから、根拠と対応を整理してご案内します。」',
+    fieldTalk: '「確認してから、根拠と対応を整理してご案内します。」',
     caution: SAFETY_NOTICE,
     senpaiMessage:
       'うまく言葉にできない時は、まず「何が不安か」だけでも大丈夫。判断ではなく、確認する順番を整理していきましょう。',

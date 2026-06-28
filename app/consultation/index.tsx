@@ -94,7 +94,7 @@ export default function ConsultationScreen() {
           keywords: [],
           conclusion: 'エラーが発生しました。もう一度お試しください。',
           fieldAction: '',
-          patientTalk: '',
+          fieldTalk: '',
           caution: '',
           senpaiMessage: '',
         },
@@ -133,14 +133,14 @@ export default function ConsultationScreen() {
       )}
 
       {/* 現場での言い方 */}
-      {response.patientTalk && (
+      {response.fieldTalk && (
         <View style={styles.responseSection}>
           <View style={styles.responseLabelRow}>
             <MaterialCommunityIcons name="message-text-outline" size={16} color="#FF6B9D" />
             <Text style={styles.responseLabel}>現場での言い方</Text>
           </View>
           <View style={styles.talkBubble}>
-            <Text style={styles.talkText}>{response.patientTalk}</Text>
+            <Text style={styles.talkText}>{response.fieldTalk}</Text>
           </View>
         </View>
       )}

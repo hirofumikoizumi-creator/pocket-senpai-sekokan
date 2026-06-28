@@ -9,7 +9,7 @@ export interface ConsultationResponse {
   keywords: string[];
   conclusion: string;
   fieldAction: string;
-  patientTalk: string;
+  fieldTalk: string;
   caution: string;
   senpaiMessage: string;
 }
@@ -24,7 +24,7 @@ export interface TalkScript {
 }
 
 export interface Dialogue {
-  speaker: 'dh' | 'patient';
+  speaker: 'field' | 'counterpart';
   text: string;
 }
 

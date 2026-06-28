@@ -22,7 +22,7 @@ export function enforceResponseSafety(response: ConsultationResponse): Consultat
     ...response,
     conclusion: scrub(response.conclusion),
     fieldAction: scrub(response.fieldAction),
-    patientTalk: scrub(response.patientTalk),
+    fieldTalk: scrub(response.fieldTalk),
     caution: response.caution ? scrub(response.caution) : SAFETY_NOTICE,
     senpaiMessage: scrub(response.senpaiMessage),
   };

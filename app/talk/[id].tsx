@@ -49,28 +49,28 @@ export default function TalkDetailScreen() {
               key={index}
               style={[
                 styles.dialogueRow,
-                dialogue.speaker === 'dh' ? styles.dhRow : styles.patientRow,
+                dialogue.speaker === 'field' ? styles.fieldRow : styles.counterpartRow,
               ]}
             >
               {/* アバター */}
               <View style={[
                 styles.avatar,
-                dialogue.speaker === 'dh' ? styles.dhAvatar : styles.patientAvatar,
+                dialogue.speaker === 'field' ? styles.fieldAvatar : styles.counterpartAvatar,
               ]}>
                 <MaterialCommunityIcons
-                  name={dialogue.speaker === 'dh' ? 'account-hard-hat' : 'account-tie-outline'}
+                  name={dialogue.speaker === 'field' ? 'account-hard-hat' : 'account-tie-outline'}
                   size={16}
-                  color={dialogue.speaker === 'dh' ? COLORS.primary : '#FF6B9D'}
+                  color={dialogue.speaker === 'field' ? COLORS.primary : '#FF6B9D'}
                 />
               </View>
 
               {/* 吹き出し */}
               <View style={[
                 styles.bubble,
-                dialogue.speaker === 'dh' ? styles.dhBubble : styles.patientBubble,
+                dialogue.speaker === 'field' ? styles.fieldBubble : styles.counterpartBubble,
               ]}>
                 <Text style={styles.speakerLabel}>
-                  {dialogue.speaker === 'dh' ? '現場担当' : '相手'}
+                  {dialogue.speaker === 'field' ? '現場担当' : '相手'}
                 </Text>
                 <Text style={styles.dialogueText}>{dialogue.text}</Text>
               </View>
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: SPACING.md,
   },
-  dhRow: {},
-  patientRow: {
+  fieldRow: {},
+  counterpartRow: {
     flexDirection: 'row-reverse',
   },
   avatar: {
@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  dhAvatar: {
+  fieldAvatar: {
     backgroundColor: COLORS.surfaceLight,
     marginRight: SPACING.sm,
   },
-  patientAvatar: {
+  counterpartAvatar: {
     backgroundColor: '#FFF0F5',
     marginLeft: SPACING.sm,
   },
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
   },
-  dhBubble: {
+  fieldBubble: {
     backgroundColor: COLORS.white,
     borderTopLeftRadius: 4,
     ...SHADOWS.sm,
   },
-  patientBubble: {
+  counterpartBubble: {
     backgroundColor: '#F0FDF9',
     borderTopRightRadius: 4,
     ...SHADOWS.sm,

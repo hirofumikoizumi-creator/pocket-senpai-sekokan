@@ -7,5 +7,5 @@ export const modelManifest = {
   mode: 'bundled-gguf-required',
   cloudApiEnabled: false,
   purpose:
-    '監修済みデータを相談画面向けの形式に整えるためのオンデバイス補助。医療事実の生成には使わない。',
+    '監修済みデータを相談画面向けの形式に整えるためのオンデバイス補助。現場判断・法令判断の生成には使わない。',
 } as const;
