@@ -71,7 +71,7 @@ export function useSubscription() {
   }, []);
 
   useEffect(() => {
-    refreshSubscription();
+    void Promise.resolve().then(refreshSubscription);
   }, [refreshSubscription]);
 
   const buyPremium = useCallback(async () => {

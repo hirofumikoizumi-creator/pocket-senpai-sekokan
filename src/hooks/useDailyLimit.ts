@@ -26,7 +26,7 @@ export function useDailyLimit(storageKey: string, limit: number, disabled = fals
   }, [storageKey]);
 
   useEffect(() => {
-    loadUsage();
+    void Promise.resolve().then(loadUsage);
   }, [loadUsage]);
 
   const increment = useCallback(async () => {

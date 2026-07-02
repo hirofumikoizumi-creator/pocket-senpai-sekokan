@@ -51,7 +51,7 @@ npm run preflight:release
 
 ## 月額プラン
 
-- Product ID: `pocket_senpai_sekokan_monthly`
+- Product ID: `com.gsw.pocketsenpai.sekoukanri.monthly`
 - RevenueCat Offering: `default`
 - RevenueCat Entitlement: `premium`
 - 価格表示: 月額500円
