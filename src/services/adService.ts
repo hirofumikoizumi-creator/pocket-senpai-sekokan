@@ -26,7 +26,7 @@ function waitForAdEvent(ad: any, loadedEvent: string, closedEvent: string, earne
     let loaded = false;
     let earned = !earnedEvent;
     let finished = false;
-    const unsubscribers: Array<() => void> = [];
+    const unsubscribers: (() => void)[] = [];
 
     const cleanup = () => {
       unsubscribers.forEach((unsubscribe) => unsubscribe());
