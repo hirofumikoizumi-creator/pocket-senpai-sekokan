@@ -4,10 +4,11 @@ export const FREE_PLAN_LIMITS = {
   favorites: 10,
 };
 
-export const PREMIUM_PRODUCT_ID = 'pocket_senpai_sekokan_monthly';
+export const PREMIUM_PRODUCT_ID = 'com.gsw.pocketsenpai.sekoukanri.monthly';
 
 export const PREMIUM_PLAN = {
-  name: 'ポケット先輩プレミアム',
+  name: 'ポケット先輩 Pro',
   priceLabel: '月額500円',
+  shortPriceLabel: '¥500 / 月',
   productId: PREMIUM_PRODUCT_ID,
 };

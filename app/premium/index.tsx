@@ -8,11 +8,24 @@ import { REVENUECAT_ENTITLEMENT_ID, REVENUECAT_OFFERING_ID } from '../../src/ser
 import { useSubscription } from '../../src/hooks/useSubscription';
 
 const premiumBenefits = [
-  '先輩相談を回数制限なく利用',
-  'ミニ学習クイズを1日の制限なく利用',
-  'お気に入り登録を無制限に保存',
-  '広告を非表示',
-  '現場での言い方・注意点をいつでも確認',
+  '施工記録をすばやく整理',
+  '確認漏れを減らす',
+  'Pro機能をすべて利用',
+];
+
+const proFeatureCards = [
+  {
+    title: '現場情報',
+    description: '案件ごとの情報を整理して確認しやすくします。',
+  },
+  {
+    title: '写真・メモ',
+    description: '施工中の記録を残し、あとから見返せます。',
+  },
+  {
+    title: '共有準備',
+    description: 'チームや関係者へ伝える内容をまとめやすくします。',
+  },
 ];
 
 const freeLimits = [
@@ -82,21 +95,19 @@ export default function PremiumScreen() {
     <>
       <Stack.Screen options={{ title: 'プレミアム', headerBackTitle: '戻る' }} />
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <View style={styles.hero}>
-          <View style={styles.crownCircle}>
-            <MaterialCommunityIcons name="crown-outline" size={38} color={COLORS.primaryDark} />
+        <View style={styles.appHeader}>
+          <View style={styles.appIcon}>
+            <Text style={styles.appIconText}>P</Text>
           </View>
+          <View style={styles.appHeaderText}>
+            <Text style={styles.appName}>ポケット先輩</Text>
+            <Text style={styles.appTagline}>施工管理をスマートに</Text>
+          </View>
+        </View>
+
+        <View style={styles.heroIntro}>
           <Text style={styles.title}>{PREMIUM_PLAN.name}</Text>
-          <Text style={styles.price}>{PREMIUM_PLAN.priceLabel}</Text>
-          <Text style={styles.description}>
-            現場で迷った時の確認と学習を、回数を気にせず使えるプランです。
-          </Text>
-          {isPremium && (
-            <View style={styles.activeBadge}>
-              <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.primaryDark} />
-              <Text style={styles.activeBadgeText}>プレミアム有効</Text>
-            </View>
-          )}
+          <Text style={styles.description}>現場の確認・記録・共有をもっとスムーズに。Pro機能を月額で利用できます。</Text>
         </View>
 
         {!isRevenueCatConfigured && (
@@ -109,11 +120,40 @@ export default function PremiumScreen() {
         )}
 
         <View style={[styles.section, styles.premiumSection]}>
-          <Text style={styles.sectionTitle}>有料プランでできること</Text>
+          <View style={styles.planHeader}>
+            <Text style={styles.sectionTitle}>月額プラン</Text>
+            <View style={styles.cancelBadge}>
+              <Text style={styles.cancelBadgeText}>いつでも解約可能</Text>
+            </View>
+          </View>
+          <View style={styles.priceRow}>
+            <Text style={styles.price}>¥500</Text>
+            <Text style={styles.priceSuffix}>/ 月</Text>
+          </View>
           {premiumBenefits.map((item) => (
             <View key={item} style={styles.row}>
               <MaterialCommunityIcons name="check-circle" size={19} color={COLORS.primary} />
               <Text style={styles.benefitText}>{item}</Text>
+            </View>
+          ))}
+          <TouchableOpacity style={[styles.purchaseButton, isLoading && styles.disabledButton]} onPress={handlePurchase} activeOpacity={0.75} disabled={isLoading}>
+            {isLoading ? <ActivityIndicator color={COLORS.white} /> : <Text style={styles.purchaseText}>月額プランを購入</Text>}
+          </TouchableOpacity>
+          <Text style={styles.appleNotice}>購入はApple IDで安全に処理されます</Text>
+          {isPremium && (
+            <View style={styles.activeBadge}>
+              <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.primaryDark} />
+              <Text style={styles.activeBadgeText}>プレミアム有効</Text>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Proで使えること</Text>
+          {proFeatureCards.map((item) => (
+            <View key={item.title} style={styles.featureCard}>
+              <Text style={styles.featureTitle}>{item.title}</Text>
+              <Text style={styles.featureDescription}>{item.description}</Text>
             </View>
           ))}
         </View>
@@ -128,12 +168,11 @@ export default function PremiumScreen() {
           ))}
         </View>
 
-        <TouchableOpacity style={[styles.purchaseButton, isLoading && styles.disabledButton]} onPress={handlePurchase} activeOpacity={0.75} disabled={isLoading}>
-          {isLoading ? <ActivityIndicator color={COLORS.white} /> : <Text style={styles.purchaseText}>{PREMIUM_PLAN.priceLabel}で始める</Text>}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.restoreButton} onPress={handleRestore} activeOpacity={0.75} disabled={isLoading}>
-          <Text style={styles.restoreText}>購入を復元</Text>
-        </TouchableOpacity>
+        <View style={styles.footerLinks}>
+          <TouchableOpacity style={styles.footerLink} onPress={handleRestore} activeOpacity={0.75} disabled={isLoading}>
+            <Text style={styles.restoreText}>購入を復元</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.devButton} onPress={handleDevelopmentToggle} activeOpacity={0.75}>
           <Text style={styles.devText}>
@@ -154,41 +193,53 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     paddingBottom: SPACING.xxl,
   },
-  hero: {
+  appHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.white,
-    borderRadius: BORDER_RADIUS.xl,
-    padding: SPACING.xl,
-    marginBottom: SPACING.lg,
-    ...SHADOWS.md,
+    marginBottom: SPACING.xl,
   },
-  crownCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: COLORS.surfaceLight,
+  appIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.md,
+    marginRight: SPACING.md,
+    ...SHADOWS.sm,
   },
-  title: {
+  appIconText: {
+    color: COLORS.white,
+    fontSize: FONT_SIZES.title,
+    fontWeight: '800',
+  },
+  appHeaderText: {
+    flex: 1,
+  },
+  appName: {
     fontSize: FONT_SIZES.xxl,
     fontWeight: '800',
     color: COLORS.text,
-    textAlign: 'center',
   },
-  price: {
-    fontSize: 34,
-    fontWeight: '800',
-    color: COLORS.primary,
-    marginTop: SPACING.sm,
-  },
-  description: {
+  appTagline: {
     fontSize: FONT_SIZES.md,
     color: COLORS.textSecondary,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginTop: SPACING.sm,
+    marginTop: SPACING.xs,
+    fontWeight: '600',
+  },
+  heroIntro: {
+    marginBottom: SPACING.lg,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: COLORS.text,
+    marginBottom: SPACING.sm,
+  },
+  description: {
+    fontSize: FONT_SIZES.lg,
+    color: COLORS.textSecondary,
+    lineHeight: 25,
     fontWeight: '700',
   },
   activeBadge: {
@@ -231,11 +282,48 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#CDEFE9',
   },
+  planHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: SPACING.md,
+  },
   sectionTitle: {
     fontSize: FONT_SIZES.lg,
     fontWeight: '800',
     color: COLORS.text,
     marginBottom: SPACING.sm,
+  },
+  cancelBadge: {
+    backgroundColor: COLORS.surfaceLight,
+    borderRadius: BORDER_RADIUS.full,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs,
+  },
+  cancelBadgeText: {
+    color: COLORS.primaryDark,
+    fontSize: FONT_SIZES.sm,
+    fontWeight: '700',
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: SPACING.md,
+    paddingBottom: SPACING.md,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  price: {
+    fontSize: 42,
+    fontWeight: '800',
+    color: COLORS.text,
+  },
+  priceSuffix: {
+    fontSize: FONT_SIZES.xl,
+    fontWeight: '700',
+    color: COLORS.textSecondary,
+    marginLeft: SPACING.sm,
+    marginBottom: SPACING.xs,
   },
   row: {
     flexDirection: 'row',
@@ -263,7 +351,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.full,
     paddingVertical: SPACING.md,
     alignItems: 'center',
-    marginTop: SPACING.sm,
+    marginTop: SPACING.lg,
     ...SHADOWS.sm,
   },
   disabledButton: {
@@ -274,14 +362,44 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.lg,
     fontWeight: '800',
   },
-  restoreButton: {
+  appleNotice: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZES.sm,
+    textAlign: 'center',
+    fontWeight: '600',
+    marginTop: SPACING.sm,
+  },
+  featureCard: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
+    marginTop: SPACING.sm,
+  },
+  featureTitle: {
+    color: COLORS.text,
+    fontSize: FONT_SIZES.md,
+    fontWeight: '800',
+  },
+  featureDescription: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZES.sm,
+    fontWeight: '600',
+    lineHeight: 19,
+    marginTop: SPACING.xs,
+  },
+  footerLinks: {
     alignItems: 'center',
-    paddingVertical: SPACING.md,
+    marginBottom: SPACING.md,
+  },
+  footerLink: {
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
   },
   restoreText: {
-    color: COLORS.textSecondary,
+    color: COLORS.primaryDark,
     fontSize: FONT_SIZES.md,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   devButton: {
     borderRadius: BORDER_RADIUS.md,
