@@ -1,5 +1,3 @@
-import { Asset } from 'expo-asset';
-import * as FileSystem from 'expo-file-system';
 import { modelManifest } from '../data/modelManifest';
 import { ConsultationResponse } from '../types';
 import { enforceResponseSafety } from './safetyGuard';
@@ -20,26 +18,17 @@ type LlamaModule = typeof import('llama.rn');
 type LlamaContext = Awaited<ReturnType<LlamaModule['initLlama']>>;
 
 const MIN_REAL_MODEL_BYTES = 500 * 1024 * 1024;
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const QWEN_MODEL_ASSET = require('../../assets/models/Qwen3-0.6B-Q8_0.gguf');
 const STOP_WORDS = ['</s>', '<|end|>', '<|im_end|>', '<|endoftext|>'];
 
 let contextPromise: Promise<LlamaContext | null> | null = null;
 let lastStatus: OnDeviceQwenStatus = 'loading';
 
 async function getBundledModelUri(): Promise<string | null> {
-  const asset = Asset.fromModule(QWEN_MODEL_ASSET);
-  await asset.downloadAsync();
-
-  const uri = asset.localUri ?? asset.uri;
-  if (!uri) return null;
-
-  const info = await FileSystem.getInfoAsync(uri);
-  if (!info.exists || typeof info.size !== 'number' || info.size < MIN_REAL_MODEL_BYTES) {
-    return null;
-  }
-
-  return uri.startsWith('file://') ? uri : `file://${uri}`;
+  // The GGUF model is too large for Metro's eager bundle phase. TestFlight builds
+  // intentionally fall back to supervised templates until a post-install model
+  // delivery path is added.
+  void MIN_REAL_MODEL_BYTES;
+  return null;
 }
 
 async function loadContext(): Promise<LlamaContext | null> {
