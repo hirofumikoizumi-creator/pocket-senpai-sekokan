@@ -36,6 +36,13 @@ export function useDailyLimit(storageKey: string, limit: number, disabled = fals
     await AsyncStorage.setItem(storageKey, JSON.stringify({ date: todayKey(), used: nextUsed }));
   }, [disabled, storageKey, used]);
 
+  const grantExtraUse = useCallback(async (amount = 1) => {
+    if (disabled) return;
+    const nextUsed = Math.max(used - amount, 0);
+    setUsed(nextUsed);
+    await AsyncStorage.setItem(storageKey, JSON.stringify({ date: todayKey(), used: nextUsed }));
+  }, [disabled, storageKey, used]);
+
   const remaining = disabled ? Infinity : Math.max(limit - used, 0);
 
   return {
@@ -45,6 +52,7 @@ export function useDailyLimit(storageKey: string, limit: number, disabled = fals
     isLoading,
     canUse: disabled || remaining > 0,
     increment,
+    grantExtraUse,
     refreshUsage: loadUsage,
   };
 }

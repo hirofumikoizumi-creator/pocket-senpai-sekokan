@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { Stack } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -23,6 +24,7 @@ import { PremiumPrompt } from '../../src/components/PremiumPrompt';
 import { SourceNote } from '../../src/components/SourceNote';
 import { useDailyLimit } from '../../src/hooks/useDailyLimit';
 import { useSubscription } from '../../src/hooks/useSubscription';
+import { showInterstitialAd, showRewardedAd } from '../../src/services/ads';
 
 const SENPAI_IMAGE = require('../../assets/characters/senpai-construction.png');
 
@@ -47,9 +49,11 @@ export default function ConsultationScreen() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRewardLoading, setIsRewardLoading] = useState(false);
   const [aiStatus, setAIStatus] = useState<OnDeviceAIStatus>('loading');
   const scrollViewRef = useRef<ScrollView>(null);
   const messageIdRef = useRef(0);
+  const lastInterstitialUseRef = useRef(0);
   const { isPremium } = useSubscription();
   const chatLimit = useDailyLimit('@pocket_senpai_daily_chat', FREE_PLAN_LIMITS.dailyChatMessages, isPremium);
 
@@ -85,6 +89,7 @@ export default function ConsultationScreen() {
 
     try {
       const response = await getAIResponse(query);
+      const nextUsed = chatLimit.used + 1;
       await chatLimit.increment();
       const aiMessage: Message = {
         id: nextMessageId(),
@@ -93,6 +98,11 @@ export default function ConsultationScreen() {
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, aiMessage]);
+
+      if (!isPremium && nextUsed >= 3 && nextUsed < chatLimit.limit && nextUsed !== lastInterstitialUseRef.current) {
+        lastInterstitialUseRef.current = nextUsed;
+        void showInterstitialAd();
+      }
     } catch {
       const errorMessage: Message = {
         id: nextMessageId(),
@@ -117,6 +127,25 @@ export default function ConsultationScreen() {
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     }, 100);
+  };
+
+  const handleWatchReward = async () => {
+    if (isPremium || chatLimit.canUse || isRewardLoading) return;
+    setIsRewardLoading(true);
+
+    try {
+      const earned = await showRewardedAd();
+      if (earned) {
+        await chatLimit.grantExtraUse(1);
+        Alert.alert('相談回数を追加しました', '広告視聴ありがとうございます。先輩相談をもう1回利用できます。');
+      } else {
+        Alert.alert('広告を表示できませんでした', '少し時間をおいてからもう一度お試しください。');
+      }
+    } catch {
+      Alert.alert('広告を表示できませんでした', '通信状況を確認して、少し時間をおいてからもう一度お試しください。');
+    } finally {
+      setIsRewardLoading(false);
+    }
   };
 
   const renderAIResponse = (response: ConsultationResponse) => (
@@ -220,7 +249,34 @@ export default function ConsultationScreen() {
             </Text>
           )}
           {!chatLimit.canUse && (
-            <PremiumPrompt title="本日の無料相談は終了しました" message="プレミアムでは先輩相談を回数制限なく利用できます。" />
+            <>
+              <PremiumPrompt title="本日の無料相談は終了しました" message="プレミアムでは先輩相談を回数制限なく利用できます。" />
+              {!isPremium && (
+                <View style={styles.rewardCard}>
+                  <View style={styles.rewardTextGroup}>
+                    <Text style={styles.rewardTitle}>広告を見てもう1回相談</Text>
+                    <Text style={styles.rewardText}>
+                      リワード広告を最後まで視聴すると、本日の先輩相談を1回追加できます。
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.rewardButton, isRewardLoading && styles.rewardButtonDisabled]}
+                    onPress={handleWatchReward}
+                    disabled={isRewardLoading}
+                    activeOpacity={0.8}
+                  >
+                    {isRewardLoading ? (
+                      <ActivityIndicator size="small" color={COLORS.white} />
+                    ) : (
+                      <>
+                        <MaterialCommunityIcons name="play-circle-outline" size={18} color={COLORS.white} />
+                        <Text style={styles.rewardButtonText}>広告を見る</Text>
+                      </>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+            </>
           )}
           {/* 初期表示 */}
           {messages.length === 0 && (
@@ -351,6 +407,46 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.xs,
     textAlign: 'right',
     marginBottom: SPACING.sm,
+  },
+  rewardCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.md,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
+    ...SHADOWS.sm,
+  },
+  rewardTextGroup: {
+    marginBottom: SPACING.sm,
+  },
+  rewardTitle: {
+    color: COLORS.text,
+    fontSize: FONT_SIZES.md,
+    fontWeight: '700',
+    marginBottom: SPACING.xs,
+  },
+  rewardText: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZES.sm,
+    lineHeight: 18,
+  },
+  rewardButton: {
+    minHeight: 44,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: COLORS.secondary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SPACING.xs,
+  },
+  rewardButtonDisabled: {
+    opacity: 0.7,
+  },
+  rewardButtonText: {
+    color: COLORS.white,
+    fontSize: FONT_SIZES.md,
+    fontWeight: '700',
   },
   welcomeContainer: {
     alignItems: 'center',
