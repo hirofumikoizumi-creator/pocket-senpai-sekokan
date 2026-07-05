@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { AppState } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getRevenueCatStatus,
@@ -72,6 +73,16 @@ export function useSubscription() {
 
   useEffect(() => {
     void Promise.resolve().then(refreshSubscription);
+  }, [refreshSubscription]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (status) => {
+      if (status === 'active') {
+        void refreshSubscription();
+      }
+    });
+
+    return () => subscription.remove();
   }, [refreshSubscription]);
 
   const buyPremium = useCallback(async () => {

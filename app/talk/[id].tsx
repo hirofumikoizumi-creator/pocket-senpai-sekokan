@@ -12,6 +12,7 @@ import { talkScripts } from '../../src/data/talks';
 import { Disclaimer } from '../../src/components/Disclaimer';
 import { FavoriteButton } from '../../src/components/FavoriteButton';
 import { AdBanner } from '../../src/components/AdBanner';
+import { SourceNote } from '../../src/components/SourceNote';
 
 export default function TalkDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -89,6 +90,8 @@ export default function TalkDetailScreen() {
         </View>
 
         <AdBanner style={styles.adSpace} />
+
+        <SourceNote references={talk.references} sourceNote={talk.sourceNote} />
 
         <Disclaimer compact />
       </ScrollView>

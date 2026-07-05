@@ -95,9 +95,30 @@ function getMonthlyPackage(offerings: any) {
   return (
     offerings?.current?.monthly ||
     offerings?.all?.[REVENUECAT_OFFERING_ID]?.monthly ||
+    offerings?.current?.availablePackages?.find?.((item: any) =>
+      item?.product?.identifier === PREMIUM_PRODUCT_ID ||
+      item?.product?.productIdentifier === PREMIUM_PRODUCT_ID
+    ) ||
     offerings?.current?.availablePackages?.[0] ||
     null
   );
+}
+
+async function purchaseConfiguredProduct(Purchases: PurchasesModule) {
+  if (Purchases.purchaseProduct) {
+    return Purchases.purchaseProduct(PREMIUM_PRODUCT_ID);
+  }
+
+  if (Purchases.getProducts && Purchases.purchaseStoreProduct) {
+    const products = await Purchases.getProducts([PREMIUM_PRODUCT_ID]);
+    const product = products?.find?.((item: any) =>
+      item?.identifier === PREMIUM_PRODUCT_ID ||
+      item?.productIdentifier === PREMIUM_PRODUCT_ID
+    );
+    if (product) return Purchases.purchaseStoreProduct(product);
+  }
+
+  return null;
 }
 
 export async function purchasePremium() {
@@ -111,11 +132,13 @@ export async function purchasePremium() {
   const offerings = await Purchases.getOfferings();
   const monthlyPackage = getMonthlyPackage(offerings);
 
-  if (!monthlyPackage) {
-    throw new Error(`RevenueCat offering is missing. Create offering "${REVENUECAT_OFFERING_ID}" with a monthly package for product ${PREMIUM_PRODUCT_ID}.`);
-  }
+  const result = monthlyPackage
+    ? await Purchases.purchasePackage(monthlyPackage)
+    : await purchaseConfiguredProduct(Purchases);
 
-  const result = await Purchases.purchasePackage(monthlyPackage);
+  if (!result) {
+    throw new Error(`RevenueCat offering or product is missing. Create offering "${REVENUECAT_OFFERING_ID}" or publish product ${PREMIUM_PRODUCT_ID}.`);
+  }
   const customerInfo = result.customerInfo || result;
 
   return {

@@ -12,6 +12,8 @@ export interface ConsultationResponse {
   fieldTalk: string;
   caution: string;
   senpaiMessage: string;
+  references?: string[];
+  sourceNote?: string;
 }
 
 // 現場トーク
@@ -21,6 +23,8 @@ export interface TalkScript {
   title: string;
   situation: string;
   dialogues: Dialogue[];
+  references?: string[];
+  sourceNote?: string;
 }
 
 export interface Dialogue {
@@ -37,6 +41,8 @@ export interface Manual {
   steps: ManualStep[];
   tips: string[];
   cautions: string[];
+  references?: string[];
+  sourceNote?: string;
 }
 
 export interface ManualStep {
@@ -51,6 +57,8 @@ export interface ChecklistCategory {
   title: string;
   icon: string;
   items: ChecklistItem[];
+  references?: string[];
+  sourceNote?: string;
 }
 
 export interface ChecklistItem {
@@ -67,6 +75,8 @@ export interface Quiz {
   options: string[];
   correctIndex: number;
   explanation: string;
+  references?: string[];
+  sourceNote?: string;
 }
 
 // お気に入り

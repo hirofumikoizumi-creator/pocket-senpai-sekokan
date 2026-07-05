@@ -15,9 +15,9 @@
 - Expo SDK 56 / React Native 0.85 / Expo Router 構成
 - iOS `ITSAppUsesNonExemptEncryption: false`
 - `expo-build-properties` による iOS deployment target `16.4`
-- `llama.rn` によるオンデバイス Qwen 整形ランタイム
-- `assets/models/Qwen3-0.6B-Q8_0.gguf` の Git LFS 管理
-- Qwen 未読込時の監修済みテンプレートフォールバック
+- `llama.rn` によるオンデバイス AI 整形ランタイム
+- `assets/models/ai-model.gguf` の Git LFS 管理
+- AIモデル未読込時の監修済みテンプレートフォールバック
 - 常設免責文と安全ガード
 - 各セクションの Stack layout
 - 本番アイコン / Splash assets

@@ -1,7 +1,7 @@
 import { buildNoMatchResponse, buildSafetyFallbackResponse, isUnsafeConstructionJudgmentRequest } from '../constants/safety';
 import { findConsultationResponse } from '../data/consultations';
 import { ConsultationResponse } from '../types';
-import { formatWithOnDeviceQwen } from './onDeviceQwen';
+import { formatWithOnDeviceAI } from './onDeviceAI';
 import { enforceResponseSafety } from './safetyGuard';
 
 const RESPONSE_DELAY_MS = 500;
@@ -18,7 +18,7 @@ export async function getAIResponse(query: string): Promise<ConsultationResponse
   }
 
   const approvedSource = findConsultationResponse(query) ?? buildNoMatchResponse();
-  const qwenFormatted = await formatWithOnDeviceQwen({ query, source: approvedSource });
+  const aiFormatted = await formatWithOnDeviceAI({ query, source: approvedSource });
 
-  return enforceResponseSafety(qwenFormatted ?? approvedSource);
+  return enforceResponseSafety(aiFormatted ?? approvedSource);
 }
