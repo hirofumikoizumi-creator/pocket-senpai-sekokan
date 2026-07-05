@@ -1,4 +1,5 @@
 import { ConsultationResponse } from '../types';
+import { COMMON_REFERENCES, CONTENT_SOURCE_NOTE, SAFETY_REFERENCES } from '../data/references';
 
 export const FULL_DISCLAIMER =
   '本アプリは建設・土木の施工管理を学ぶための教育・学習支援アプリです。法令適合、構造安全、施工可否、労働安全、災害・事故対応などの判断を代替するものではありません。実務では法令、設計図書、仕様書、元請・発注者・所属会社のルール、有資格者・監督者の指示に従ってください。';
@@ -36,6 +37,8 @@ export function buildSafetyFallbackResponse(query: string): ConsultationResponse
       query.trim().length > 0
         ? '施工管理でいちばん大事なのは、危ないかもと思った瞬間に確認先へつなぐことです。一人で抱えず、事実を短く整理して共有しましょう。'
         : '相談内容を入力するときも、個人名、現場名、契約情報など特定につながる情報は入れないでください。',
+    references: SAFETY_REFERENCES,
+    sourceNote: CONTENT_SOURCE_NOTE,
   };
 }
 
@@ -52,5 +55,7 @@ export function buildNoMatchResponse(): ConsultationResponse {
     caution: SAFETY_NOTICE,
     senpaiMessage:
       'うまく言葉にできない時は、まず「何が不安か」だけでも大丈夫。判断ではなく、確認する順番を整理していきましょう。',
+    references: COMMON_REFERENCES,
+    sourceNote: CONTENT_SOURCE_NOTE,
   };
 }

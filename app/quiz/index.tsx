@@ -12,6 +12,7 @@ import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/u
 import { getQuizCategories, getQuizzesByCategory } from '../../src/data/quizzes';
 import { Quiz } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
+import { SourceNote } from '../../src/components/SourceNote';
 import { FREE_PLAN_LIMITS } from '../../src/constants/plans';
 import { PremiumPrompt } from '../../src/components/PremiumPrompt';
 import { useDailyLimit } from '../../src/hooks/useDailyLimit';
@@ -211,6 +212,7 @@ export default function QuizScreen() {
                 <Text style={styles.explanationTitle}>解説</Text>
               </View>
               <Text style={styles.explanationText}>{quiz.explanation}</Text>
+              <SourceNote references={quiz.references} sourceNote={quiz.sourceNote} compact />
             </View>
           )}
 

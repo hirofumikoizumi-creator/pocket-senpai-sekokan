@@ -12,6 +12,7 @@ import { manuals } from '../../src/data/manuals';
 import { Disclaimer } from '../../src/components/Disclaimer';
 import { FavoriteButton } from '../../src/components/FavoriteButton';
 import { InlineAd } from '../../src/components/AdBanner';
+import { SourceNote } from '../../src/components/SourceNote';
 
 export default function ManualDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -95,6 +96,8 @@ export default function ManualDetailScreen() {
             </View>
           ))}
         </View>
+
+        <SourceNote references={manual.references} sourceNote={manual.sourceNote} />
 
         <Disclaimer compact />
       </ScrollView>

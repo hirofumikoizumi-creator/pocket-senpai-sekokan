@@ -1,18 +1,17 @@
-# Qwen3 GGUF model
+# On-device AI GGUF model
 
-Place the bundled on-device model here before a production build.
+Place the on-device AI model here for local development, or provide `AI_MODEL_URL` in EAS for production builds.
 
-Bundled filename:
+Local filename:
 
 ```text
-Qwen3-0.6B-Q8_0.gguf
+ai-model.gguf
 ```
 
-Bundled model:
+Model requirements:
 
-- Repository: `Qwen/Qwen3-0.6B-GGUF`
-- File: `Qwen3-0.6B-Q8_0.gguf`
-- License: Apache-2.0
-- Size: about 639 MB
+- GGUF format compatible with `llama.rn`
+- Size: at least 500 MB for the production model check
+- License: confirm redistribution and app use before release
 
 The app never calls a cloud LLM. If this model file is absent, smaller than 500 MB, or fails to load, the consultation flow falls back to supervised templates.

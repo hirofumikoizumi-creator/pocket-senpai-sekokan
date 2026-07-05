@@ -17,9 +17,10 @@ import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/u
 import { getAIResponse } from '../../src/services/aiService';
 import { ConsultationResponse } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
-import { getOnDeviceQwenStatus, OnDeviceQwenStatus } from '../../src/services/onDeviceQwen';
+import { getOnDeviceAIStatus, OnDeviceAIStatus } from '../../src/services/onDeviceAI';
 import { FREE_PLAN_LIMITS } from '../../src/constants/plans';
 import { PremiumPrompt } from '../../src/components/PremiumPrompt';
+import { SourceNote } from '../../src/components/SourceNote';
 import { useDailyLimit } from '../../src/hooks/useDailyLimit';
 import { useSubscription } from '../../src/hooks/useSubscription';
 
@@ -46,7 +47,7 @@ export default function ConsultationScreen() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [qwenStatus, setQwenStatus] = useState<OnDeviceQwenStatus>('loading');
+  const [aiStatus, setAIStatus] = useState<OnDeviceAIStatus>('loading');
   const scrollViewRef = useRef<ScrollView>(null);
   const messageIdRef = useRef(0);
   const { isPremium } = useSubscription();
@@ -54,8 +55,8 @@ export default function ConsultationScreen() {
 
   useEffect(() => {
     let mounted = true;
-    getOnDeviceQwenStatus().then((status) => {
-      if (mounted) setQwenStatus(status);
+    getOnDeviceAIStatus().then((status) => {
+      if (mounted) setAIStatus(status);
     });
     return () => {
       mounted = false;
@@ -176,6 +177,7 @@ export default function ConsultationScreen() {
       )}
 
       <Disclaimer compact />
+      <SourceNote references={response.references} sourceNote={response.sourceNote} compact />
     </View>
   );
 
@@ -183,7 +185,8 @@ export default function ConsultationScreen() {
     <>
       <Stack.Screen
         options={{
-          title: '先輩相談',
+          title: '先輩相談AIチャット',
+          headerTitle: '先輩相談AIチャット',
           headerBackTitle: '戻る',
         }}
       />
@@ -201,14 +204,14 @@ export default function ConsultationScreen() {
           <Disclaimer />
           <View style={styles.localModelNotice}>
             <MaterialCommunityIcons
-              name={qwenStatus === 'ready' ? 'chip' : 'shield-check-outline'}
+              name={aiStatus === 'ready' ? 'chip' : 'shield-check-outline'}
               size={14}
-              color={qwenStatus === 'ready' ? COLORS.primaryDark : COLORS.textSecondary}
+              color={aiStatus === 'ready' ? COLORS.primaryDark : COLORS.textSecondary}
             />
             <Text style={styles.localModelText}>
-              {qwenStatus === 'ready'
-                ? 'Qwen3オンデバイス整形が有効です'
-                : 'Qwen3未読込のため、監修済みテンプレートで安全に応答します'}
+              {aiStatus === 'ready'
+                ? 'AIオンデバイス整形が有効です'
+                : 'AIモデル未読込のため、監修済みテンプレートで安全に応答します'}
             </Text>
           </View>
           {!isPremium && (
@@ -225,7 +228,7 @@ export default function ConsultationScreen() {
               <View style={styles.welcomeIconContainer}>
                 <Image source={SENPAI_IMAGE} style={styles.welcomeSenpaiImage} resizeMode="contain" />
               </View>
-              <Text style={styles.welcomeTitle}>先輩に相談してみよう</Text>
+              <Text style={styles.welcomeTitle}>先輩相談AIチャット</Text>
               <Text style={styles.welcomeSubtitle}>
                 仕事の悩みや分からないことを{'\n'}気軽に聞いてみてね
               </Text>

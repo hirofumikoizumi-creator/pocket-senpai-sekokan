@@ -1,15 +1,17 @@
+import Constants from 'expo-constants';
+import * as FileSystem from 'expo-file-system/legacy';
 import { modelManifest } from '../data/modelManifest';
 import { ConsultationResponse } from '../types';
 import { enforceResponseSafety } from './safetyGuard';
 
-export type OnDeviceQwenStatus =
+export type OnDeviceAIStatus =
   | 'ready'
   | 'loading'
   | 'missing_model'
   | 'native_unavailable'
   | 'error';
 
-export type QwenFormatInput = {
+export type AIFormatInput = {
   query: string;
   source: ConsultationResponse;
 };
@@ -19,21 +21,52 @@ type LlamaContext = Awaited<ReturnType<LlamaModule['initLlama']>>;
 
 const MIN_REAL_MODEL_BYTES = 500 * 1024 * 1024;
 const STOP_WORDS = ['</s>', '<|end|>', '<|im_end|>', '<|endoftext|>'];
+const constants = Constants as any;
+const extra = Constants.expoConfig?.extra || constants.manifest2?.extra || {};
+const modelDownloadUrl = String(extra.aiModelUrl || '');
 
 let contextPromise: Promise<LlamaContext | null> | null = null;
-let lastStatus: OnDeviceQwenStatus = 'loading';
+let lastStatus: OnDeviceAIStatus = 'loading';
 
-async function getBundledModelUri(): Promise<string | null> {
-  // The GGUF model is too large for Metro's eager bundle phase. TestFlight builds
-  // intentionally fall back to supervised templates until a post-install model
-  // delivery path is added.
-  void MIN_REAL_MODEL_BYTES;
-  return null;
+function getLocalModelUri() {
+  return `${FileSystem.documentDirectory || ''}models/${modelManifest.filename}`;
+}
+
+async function ensureModelDirectory() {
+  const directory = `${FileSystem.documentDirectory || ''}models`;
+  const info = await FileSystem.getInfoAsync(directory);
+  if (!info.exists) {
+    await FileSystem.makeDirectoryAsync(directory, { intermediates: true });
+  }
+}
+
+async function isUsableModel(uri: string): Promise<boolean> {
+  const info = await FileSystem.getInfoAsync(uri);
+  return Boolean(info.exists && !info.isDirectory && (info.size || 0) >= MIN_REAL_MODEL_BYTES);
+}
+
+async function downloadConfiguredModel(uri: string): Promise<string | null> {
+  if (!modelDownloadUrl || !/^https:\/\//i.test(modelDownloadUrl)) return null;
+
+  try {
+    await ensureModelDirectory();
+    const result = await FileSystem.downloadAsync(modelDownloadUrl, uri);
+    return await isUsableModel(result.uri) ? result.uri : null;
+  } catch (error) {
+    console.warn('AI model download failed:', error);
+    return null;
+  }
+}
+
+async function getAvailableModelUri(): Promise<string | null> {
+  const localUri = getLocalModelUri();
+  if (await isUsableModel(localUri)) return localUri;
+  return downloadConfiguredModel(localUri);
 }
 
 async function loadContext(): Promise<LlamaContext | null> {
   try {
-    const model = await getBundledModelUri();
+    const model = await getAvailableModelUri();
     if (!model) {
       lastStatus = 'missing_model';
       return null;
@@ -66,7 +99,7 @@ async function getContext(): Promise<LlamaContext | null> {
   return contextPromise;
 }
 
-function buildPrompt(input: QwenFormatInput): string {
+function buildPrompt(input: AIFormatInput): string {
   return [
     'あなたは建設・土木の施工管理学習アプリ内のオンデバイス整形器です。',
     '新しい技術判断や法令判断を生成してはいけません。',
@@ -108,18 +141,18 @@ function parseFormattedResponse(text: string, source: ConsultationResponse): Con
   }
 }
 
-export async function getOnDeviceQwenStatus(): Promise<OnDeviceQwenStatus> {
+export async function getOnDeviceAIStatus(): Promise<OnDeviceAIStatus> {
   if (lastStatus === 'ready') return 'ready';
   if (!contextPromise) {
-    const model = await getBundledModelUri();
+    const model = await getAvailableModelUri();
     return model ? lastStatus : 'missing_model';
   }
   await contextPromise;
   return lastStatus;
 }
 
-export async function formatWithOnDeviceQwen(
-  input: QwenFormatInput
+export async function formatWithOnDeviceAI(
+  input: AIFormatInput
 ): Promise<ConsultationResponse | null> {
   if (!modelManifest.cloudApiEnabled) {
     const context = await getContext();

@@ -13,6 +13,7 @@ import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/u
 import { checklistData } from '../../src/data/checklists';
 import { ChecklistCategory, ChecklistItem } from '../../src/types';
 import { Disclaimer } from '../../src/components/Disclaimer';
+import { SourceNote } from '../../src/components/SourceNote';
 
 const STORAGE_KEY = '@pocket_senpai_checklists';
 
@@ -163,6 +164,7 @@ export default function ChecklistScreen() {
               <MaterialCommunityIcons name="refresh" size={14} color={COLORS.textSecondary} />
               <Text style={styles.resetText}>リセット</Text>
             </TouchableOpacity>
+            <SourceNote references={item.references} sourceNote={item.sourceNote} compact />
           </View>
         )}
       </View>

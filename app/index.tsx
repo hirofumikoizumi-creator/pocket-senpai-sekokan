@@ -31,8 +31,8 @@ interface MenuCard {
 const menuCards: MenuCard[] = [
   {
     id: '1',
-    title: '先輩相談',
-    subtitle: '困った時に聞いてみよう',
+    title: '先輩相談AIチャット',
+    subtitle: 'まずここで状況整理',
     icon: 'chat-processing-outline',
     route: '/consultation',
     color: '#4ECDC4',
@@ -89,6 +89,8 @@ const menuCards: MenuCard[] = [
 
 export default function HomeScreen() {
   const router = useRouter();
+  const primaryCard = menuCards[0];
+  const secondaryCards = menuCards.slice(1);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -122,9 +124,24 @@ export default function HomeScreen() {
           <Image source={SENPAI_IMAGE} style={styles.senpaiImage} resizeMode="contain" />
         </View>
 
+        <TouchableOpacity
+          style={styles.primaryConsultationCard}
+          onPress={() => router.push(primaryCard.route as any)}
+          activeOpacity={0.75}
+        >
+          <View style={[styles.primaryIconContainer, { backgroundColor: primaryCard.color + '24' }]}>
+            <MaterialCommunityIcons name={primaryCard.icon as any} size={32} color={primaryCard.color} />
+          </View>
+          <View style={styles.primaryCardText}>
+            <Text style={styles.primaryCardTitle}>{primaryCard.title}</Text>
+            <Text style={styles.primaryCardSubtitle}>施工管理の悩み・報告・確認事項を、先輩と一緒に整理します。</Text>
+          </View>
+          <MaterialCommunityIcons name="chevron-right" size={22} color={COLORS.textSecondary} />
+        </TouchableOpacity>
+
         {/* メニューカード */}
         <View style={styles.cardsGrid}>
-          {menuCards.map((card) => (
+          {secondaryCards.map((card) => (
             <TouchableOpacity
               key={card.id}
               style={styles.card}
@@ -225,6 +242,39 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: SPACING.md,
+  },
+  primaryConsultationCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.lg,
+    padding: SPACING.lg,
+    marginTop: SPACING.md,
+    borderWidth: 1,
+    borderColor: '#CDEFE9',
+    ...SHADOWS.md,
+  },
+  primaryIconContainer: {
+    width: 58,
+    height: 58,
+    borderRadius: BORDER_RADIUS.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SPACING.md,
+  },
+  primaryCardText: {
+    flex: 1,
+  },
+  primaryCardTitle: {
+    fontSize: FONT_SIZES.xl,
+    fontWeight: '800',
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  primaryCardSubtitle: {
+    fontSize: FONT_SIZES.sm,
+    color: COLORS.textSecondary,
+    lineHeight: 18,
   },
   card: {
     width: CARD_WIDTH,

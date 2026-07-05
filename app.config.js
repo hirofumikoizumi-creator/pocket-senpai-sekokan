@@ -30,5 +30,6 @@ module.exports = ({ config }) => ({
     revenueCatAndroidApiKey: readOptionalEnv('REVENUECAT_ANDROID_API_KEY', 'goog_REVENUECAT_ANDROID_API_KEY'),
     revenueCatEntitlementId: readOptionalEnv('REVENUECAT_ENTITLEMENT_ID', 'premium'),
     revenueCatOfferingId: readOptionalEnv('REVENUECAT_OFFERING_ID', 'default'),
+    aiModelUrl: readOptionalEnv('AI_MODEL_URL', ''),
   },
 });

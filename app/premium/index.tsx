@@ -8,23 +8,24 @@ import { REVENUECAT_ENTITLEMENT_ID, REVENUECAT_OFFERING_ID } from '../../src/ser
 import { useSubscription } from '../../src/hooks/useSubscription';
 
 const premiumBenefits = [
-  '施工記録をすばやく整理',
-  '確認漏れを減らす',
-  'Pro機能をすべて利用',
+  '先輩相談AIチャットの1日回数制限を解除',
+  'ミニ学習クイズの1日回数制限を解除',
+  'お気に入り保存数の上限を解除',
+  '無料プランの広告を非表示',
 ];
 
 const proFeatureCards = [
   {
-    title: '現場情報',
-    description: '案件ごとの情報を整理して確認しやすくします。',
+    title: '先輩相談AIチャット',
+    description: '安全・品質・工程・報告の悩みを、回数制限なく相談できます。',
   },
   {
-    title: '写真・メモ',
-    description: '施工中の記録を残し、あとから見返せます。',
+    title: '学習と復習',
+    description: 'クイズとお気に入りを使って、弱点分野を繰り返し確認できます。',
   },
   {
-    title: '共有準備',
-    description: 'チームや関係者へ伝える内容をまとめやすくします。',
+    title: '広告なし',
+    description: '無料プランで表示される広告を非表示にして、確認作業に集中できます。',
   },
 ];
 
@@ -107,7 +108,7 @@ export default function PremiumScreen() {
 
         <View style={styles.heroIntro}>
           <Text style={styles.title}>{PREMIUM_PLAN.name}</Text>
-          <Text style={styles.description}>現場の確認・記録・共有をもっとスムーズに。Pro機能を月額で利用できます。</Text>
+          <Text style={styles.description}>先輩相談AIチャット、クイズ、お気に入りを制限なく使い、広告なしで学習できます。</Text>
         </View>
 
         {!isRevenueCatConfigured && (
