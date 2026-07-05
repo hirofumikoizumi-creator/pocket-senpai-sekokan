@@ -47,12 +47,15 @@ App Store Connect に提出する前に、以下の下書きを公開URLへ配�
 
 - プライバシーポリシー下書き: `PRIVACY_POLICY.md`
 - サポート案内下書き: `SUPPORT.md`
-- GitHub Pages 公開用HTML: `docs/privacy.html` / `docs/support.html`
+- GitHub Pages 公開用HTML: `docs/index.html` / `docs/privacy.html` / `docs/support.html`
+- Google AdMob app-ads.txt: `docs/app-ads.txt`
 
 GitHub Pages を有効にした場合のURL候補:
 
+- マーケティングURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/`
 - サポートURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/support.html`
 - プライバシーポリシーURL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/privacy.html`
+- Google AdMob app-ads.txt URL: `https://hirofumikoizumi-creator.github.io/pocket-senpai-sekokan/app-ads.txt`
 
 GitHub Pagesを使わない場合は、公式サイトまたは公開リポジトリのMarkdown URLを利用できます。
 
