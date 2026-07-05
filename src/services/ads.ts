@@ -29,7 +29,7 @@ export function showInterstitialAd(): Promise<boolean> {
   return new Promise((resolve) => {
     let settled = false;
     const interstitial = ads.InterstitialAd.createForAdRequest(interstitialUnitId, requestOptions);
-    const cleanup: Array<() => void> = [];
+    const cleanup: (() => void)[] = [];
 
     const finish = (shown: boolean) => {
       if (settled) return;
@@ -59,7 +59,7 @@ export function showRewardedAd(): Promise<boolean> {
     let earnedReward = false;
     let settled = false;
     const rewarded = ads.RewardedAd.createForAdRequest(rewardedUnitId, requestOptions);
-    const cleanup: Array<() => void> = [];
+    const cleanup: (() => void)[] = [];
 
     const finish = () => {
       if (settled) return;
