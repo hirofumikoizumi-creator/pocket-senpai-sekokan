@@ -104,11 +104,24 @@ function getMonthlyPackage(offerings: any) {
   );
 }
 
-async function purchaseConfiguredProduct(Purchases: PurchasesModule) {
-  if (Purchases.purchaseProduct) {
-    return Purchases.purchaseProduct(PREMIUM_PRODUCT_ID);
-  }
+function isProductConfigurationError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error || '');
+  return [
+    'configuration',
+    'None of the products',
+    'could be fetched from App Store Connect',
+    'offerings are empty',
+    'There is a problem with your configuration',
+  ].some(phrase => message.toLowerCase().includes(phrase.toLowerCase()));
+}
 
+function buildPurchaseConfigurationError() {
+  return new Error(
+    `月額プランの商品設定を確認中です。App Store Connectの商品「${PREMIUM_PRODUCT_ID}」が作成済み・利用可能で、RevenueCatのOffering「${REVENUECAT_OFFERING_ID}」に登録されると購入できます。`
+  );
+}
+
+async function purchaseConfiguredProduct(Purchases: PurchasesModule) {
   if (Purchases.getProducts && Purchases.purchaseStoreProduct) {
     const products = await Purchases.getProducts([PREMIUM_PRODUCT_ID]);
     const product = products?.find?.((item: any) =>
@@ -116,6 +129,10 @@ async function purchaseConfiguredProduct(Purchases: PurchasesModule) {
       item?.productIdentifier === PREMIUM_PRODUCT_ID
     );
     if (product) return Purchases.purchaseStoreProduct(product);
+  }
+
+  if (Purchases.purchaseProduct) {
+    return Purchases.purchaseProduct(PREMIUM_PRODUCT_ID);
   }
 
   return null;
@@ -129,15 +146,30 @@ export async function purchasePremium() {
     throw new Error('RevenueCat is not configured. Set REVENUECAT_IOS_API_KEY / REVENUECAT_ANDROID_API_KEY and use a development or production build.');
   }
 
-  const offerings = await Purchases.getOfferings();
-  const monthlyPackage = getMonthlyPackage(offerings);
+  let monthlyPackage = null;
 
-  const result = monthlyPackage
-    ? await Purchases.purchasePackage(monthlyPackage)
-    : await purchaseConfiguredProduct(Purchases);
+  try {
+    const offerings = await Purchases.getOfferings();
+    monthlyPackage = getMonthlyPackage(offerings);
+  } catch (error) {
+    console.warn('RevenueCat offerings are unavailable, falling back to product purchase:', error);
+  }
+
+  let result = null;
+
+  try {
+    result = monthlyPackage
+      ? await Purchases.purchasePackage(monthlyPackage)
+      : await purchaseConfiguredProduct(Purchases);
+  } catch (error) {
+    if (isProductConfigurationError(error)) {
+      throw buildPurchaseConfigurationError();
+    }
+    throw error;
+  }
 
   if (!result) {
-    throw new Error(`RevenueCat offering or product is missing. Create offering "${REVENUECAT_OFFERING_ID}" or publish product ${PREMIUM_PRODUCT_ID}.`);
+    throw buildPurchaseConfigurationError();
   }
   const customerInfo = result.customerInfo || result;
 
