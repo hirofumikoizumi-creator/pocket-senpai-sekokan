@@ -18,7 +18,7 @@ const requiredFiles = [
   'docs/privacy.html',
   'docs/support.html',
   'assets/characters/senpai-construction.png',
-  'assets/models/Qwen3-0.6B-Q8_0.gguf',
+  'assets/models/ai-model.gguf',
 ];
 
 const requiredPackageScripts = [
