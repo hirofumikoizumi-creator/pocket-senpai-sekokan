@@ -61,6 +61,4 @@ jobs:
 
       - name: Build and submit on EAS
         if: ${{ inputs.submit }}
-        env:
-          WHAT_TO_TEST: ${{ inputs.what_to_test }}
-        run: npx eas-cli@latest build --platform ios --profile production --non-interactive --no-wait --auto-submit-with-profile production --what-to-test "$WHAT_TO_TEST" --message "Manual GitHub Actions production build and submit"
+        run: npx eas-cli@latest build --platform ios --profile production --non-interactive --no-wait --auto-submit-with-profile production --message "Manual GitHub Actions production build and submit"
