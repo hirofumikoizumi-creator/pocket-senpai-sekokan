@@ -125,11 +125,11 @@ type ConsultationTopic = {
   references: string[];
 };
 
-const expansionAreas: Array<{
+const expansionAreas: {
   category: string;
   references: string[];
-  topics: Array<Omit<ConsultationTopic, 'category' | 'references'>>;
-}> = [
+  topics: Omit<ConsultationTopic, 'category' | 'references'>[];
+}[] = [
   {
     category: '安全管理',
     references: SAFETY_REFERENCES,
