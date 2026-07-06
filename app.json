@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F2FBFA"
       },
-      "package": "com.pocketsenpai.sekokan"
+      "package": "com.pocketsenpai.sekokan",
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "favicon": "./assets/favicon.png"

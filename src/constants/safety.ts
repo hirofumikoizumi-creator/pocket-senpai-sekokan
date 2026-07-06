@@ -59,3 +59,70 @@ export function buildNoMatchResponse(): ConsultationResponse {
     sourceNote: CONTENT_SOURCE_NOTE,
   };
 }
+
+export function buildGeneralSenpaiResponse(query: string): ConsultationResponse {
+  const trimmedQuery = query.trim();
+  const lowerQuery = trimmedQuery.toLowerCase();
+  const isTired = /疲れ|つら|辛|しんど|不安|メンタル|眠れ|限界/.test(trimmedQuery);
+  const isRelationship = /人間関係|上司|先輩|後輩|同僚|職長|怒ら|苦手|コミュ/.test(trimmedQuery);
+  const isStudy = /勉強|覚え|資格|試験|学習|練習|成長/.test(trimmedQuery);
+  const isWriting = /メール|文章|報告|返信|書き方|言い方|伝え方/.test(trimmedQuery);
+  const isPlanning = /時間|予定|優先|段取り|タスク|忙し|整理|何から/.test(trimmedQuery);
+
+  let conclusion = 'おつかれさま。これは施工管理の専門知識そのものではなくても、まず落ち着いて整理すれば大丈夫です。';
+  let fieldAction =
+    '1. いま起きていることを一文で書く  2. 自分で決められることと、相談が必要なことを分ける  3. 今日できる一歩を一つだけ決める  4. 無理に抱えず、必要なら信頼できる人へ早めに共有する';
+  let fieldTalk = '「いま少し整理したいので、状況と次にやることを一緒に確認させてください。」';
+  let caution =
+    '医療、法律、契約、金銭、緊急対応などの重要判断は、専門家や責任者に確認してください。個人情報や現場を特定できる情報は入力しないでください。';
+  let senpaiMessage =
+    '先輩っぽく言うなら、完璧な答えを一発で出そうとしなくていいです。まずは「事実」「気持ち」「次の一手」を分ければ、だいぶ動きやすくなります。';
+
+  if (isTired) {
+    conclusion = 'おつかれさま。しんどい時は、気合いで押し切るより、まず負荷を見える形にするのが先です。';
+    fieldAction =
+      '1. 今日中に必要なことだけを3つ以内に絞る  2. 後ろへ回せるものを分ける  3. 上長や周囲に相談する材料をメモする  4. 体調に影響が出ているなら、会社窓口や医療・専門相談につなぐ';
+    fieldTalk = '「少し業務が詰まっているので、優先順位を確認させてください。」';
+    senpaiMessage = '無理して黙っている方が、あとで現場にも自分にも響きます。早めに小さく相談するのは、ちゃんとした仕事の進め方です。';
+  } else if (isRelationship) {
+    conclusion = '人とのやりとりは、正しさだけで押すより、相手が判断しやすい形にすると通りやすいです。';
+    fieldAction =
+      '1. 相手に伝えたい結論を一つに絞る  2. 感情と事実を分ける  3. 写真・記録・期限など根拠を添える  4. 相談なのか報告なのか依頼なのかを明確にする';
+    fieldTalk = '「現状はここまで確認できています。次の進め方について相談させてください。」';
+    senpaiMessage = '言い方に迷ったら、まず相手を責めない形で事実から入るといいです。短く、落ち着いて、判断材料を渡しましょう。';
+  } else if (isStudy) {
+    conclusion = '勉強は量だけでなく、間違えた理由を残すと伸びやすいです。';
+    fieldAction =
+      '1. 分野を小さく分ける  2. まず一問または一項目だけ進める  3. 間違えた理由を一言で残す  4. 翌日と週末に同じ内容を見直す';
+    fieldTalk = '「今日はこの分野だけを進めて、間違えた理由をメモしておきます。」';
+    senpaiMessage = '一気に全部やろうとしなくて大丈夫です。毎日少しでも、現場の経験と用語がつながると強くなります。';
+  } else if (isWriting) {
+    conclusion = '文章や報告は、うまい表現より「相手がすぐ判断できる順番」が大事です。';
+    fieldAction =
+      '1. 結論を先に書く  2. 事実、理由、お願いしたいことを分ける  3. 日時・場所・期限を入れる  4. 最後に相手に何をしてほしいかを書く';
+    fieldTalk = '「結論からお伝えします。現状は〇〇で、確認いただきたい点は〇〇です。」';
+    senpaiMessage = 'きれいな文章にしようとしすぎなくていいです。結論、事実、依頼。この3つがあれば、仕事の文章はかなり伝わります。';
+  } else if (isPlanning || lowerQuery.includes('todo')) {
+    conclusion = '忙しい時ほど、頭の中だけで抱えず、順番を外に出すのが効きます。';
+    fieldAction =
+      '1. 今日必ず終えることを書く  2. 10分でできることから着手する  3. 人に確認が必要なものを先に投げる  4. 終わらないものは期限と理由を添えて相談する';
+    fieldTalk = '「今日中に必要なものと、確認待ちのものを分けて進めます。」';
+    senpaiMessage = '段取りは才能じゃなくて、分け方です。まず紙でもメモでもいいので、外に出してから優先順位を決めましょう。';
+  }
+
+  return {
+    id: 'general-senpai-ai',
+    category: '一般相談',
+    keywords: [],
+    conclusion,
+    fieldAction,
+    fieldTalk,
+    caution,
+    senpaiMessage,
+    references: COMMON_REFERENCES,
+    sourceNote:
+      trimmedQuery.length > 0
+        ? '一般的な学習・相談支援としてAIで整理しています。専門判断や緊急対応は、必ず専門家・責任者へ確認してください。'
+        : CONTENT_SOURCE_NOTE,
+  };
+}

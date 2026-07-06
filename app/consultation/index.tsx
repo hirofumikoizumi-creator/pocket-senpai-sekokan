@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import { Stack } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS, SHADOWS } from '../../src/utils/theme';
 import { getAIResponse } from '../../src/services/aiService';
@@ -46,6 +47,7 @@ const suggestedQuestions = [
 ];
 
 export default function ConsultationScreen() {
+  const insets = useSafeAreaInsets();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -221,14 +223,15 @@ export default function ConsultationScreen() {
       />
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={90}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={0}
       >
         <ScrollView
           ref={scrollViewRef}
           style={styles.messagesContainer}
           contentContainerStyle={styles.messagesContent}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
           <Disclaimer />
           <View style={styles.localModelNotice}>
@@ -286,7 +289,7 @@ export default function ConsultationScreen() {
               </View>
               <Text style={styles.welcomeTitle}>先輩相談AIチャット</Text>
               <Text style={styles.welcomeSubtitle}>
-                仕事の悩みや分からないことを{'\n'}気軽に聞いてみてね
+                仕事の悩みも、ちょっとした相談も{'\n'}先輩口調で一緒に整理します
               </Text>
 
               {/* 提案質問 */}
@@ -344,7 +347,7 @@ export default function ConsultationScreen() {
         </ScrollView>
 
         {/* 入力エリア */}
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { paddingBottom: Math.max(insets.bottom, SPACING.sm) }]}>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}

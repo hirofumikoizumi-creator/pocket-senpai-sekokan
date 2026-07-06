@@ -1,4 +1,3 @@
-import { buildNoMatchResponse } from '../constants/safety';
 import {
   COMMON_REFERENCES,
   CONTENT_SOURCE_NOTE,
@@ -264,5 +263,5 @@ export function findConsultationResponse(query: string): ConsultationResponse | 
     }
   }
 
-  return bestScore > 0 ? bestMatch : buildNoMatchResponse();
+  return bestScore > 0 ? bestMatch : null;
 }
